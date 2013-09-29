@@ -1,0 +1,3 @@
+/dev/mmcblk0p2:/:ext4
+/dev/mmcblk0p1:/boot:vfat
+/dev/mmcblk0p3:swap:swap

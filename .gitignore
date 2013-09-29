@@ -1,0 +1,6 @@
+build/
+output/
+svn/sources/
+*.log
+test.sh
+test[0-9].sh
