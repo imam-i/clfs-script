@@ -11,6 +11,8 @@ if [ "${CLFS_ABI}" == "aapcs" ] || [ "${CLFS_ABI}" == "aapcs-linux" ]
 then sed -i s/CONFIG_ARM_OABI/CONFIG_ARM_EABI/g .config
 fi
 
+sed -e '/.size/d' -i libc/sysdeps/linux/arm/crtn.S || return ${?}
+
 make oldconfig || return ${?}
 make || return ${?}
 make PREFIX=${CLFS} install || return ${?}

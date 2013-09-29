@@ -2,7 +2,7 @@
 
 # 4.4. Creating Directories
 mkdir -pv ${CLFS}/{bin,boot,dev,{etc/,}opt,home,lib/{firmware,modules},mnt}
-mkdir -pv ${CLFS}/{proc,sbin,srv,sys}
+mkdir -pv ${CLFS}/{proc,sbin,sys}
 mkdir -pv ${CLFS}/var/{lock,log,mail,run,spool}
 mkdir -pv ${CLFS}/var/{opt,cache,lib/{misc,locate},local}
 install -dv -m 0750 ${CLFS}/root
