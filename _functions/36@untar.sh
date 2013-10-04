@@ -6,7 +6,7 @@
 untar_clfs ()
 {
 	local _ID=${1:0:2}
-	local _archive="${_ID}_$(uname -m)_clfs.tar.bz2"
+	local _archive="${_ID}_${CLFS_ARCH}_clfs.tar.bz2"
 	local _log="${_LOG}/${_ID}/${_ID}_clfs.log"
 
 	color-echo 'untar_clfs.sh' ${MAGENTA}
@@ -15,16 +15,15 @@ untar_clfs ()
 	color-echo "3 : ${3}" ${MAGENTA}
 
 	if [ -n "${2}" ]; then
-		if [ -f ${CLFS_OUT}/${2:0:2}_$(uname -m)_clfs.tar.bz2 ] && [ $(cat ${_LOG}/${2:0:2}/${2:0:2}_flag) -eq 0 ]; then
+		if [ -f ${CLFS_OUT}/${2:0:2}_${CLFS_ARCH}_clfs.tar.bz2 ]; then
 			untar_clfs "${2}"
 			untar_clfs "${1}"
 		else
-			scripts_ctools "${2}"
-			scripts_ctools "${1}"
+			scripts_clfs "${2}"
+			scripts_clfs "${1}"
 		fi
 	else
-		if [ -f ${CLFS_OUT}/${_archive} ] && [ $(cat ${_LOG}/${_ID}/${_ID}_flag) -eq 0 ]; then
-			color-echo "Распаковка: \"${_archive}\"" ${CYAN}
+		if [ -f ${CLFS_OUT}/${_archive} ]; then
 			echo "untar: ${1}" > "${_log}"
 			date >> "${_log}"
 			echo '+++++++++++++++++env+++++++++++++++++++' >> "${_log}"
@@ -34,6 +33,10 @@ untar_clfs ()
 			local >> "${_log}"
 			echo '+++++++++++++++++++++++++++++++++++++++' >> "${_log}"
 
+			color-echo "Проверка архива: \"${_archive}\"" ${GREEN}
+			bzip2 -t ${CLFS_OUT}/${_archive}
+
+			color-echo "Распаковка архива: \"${_archive}\"" ${CYAN}
 			pushd ${CLFS} > /dev/null
 				tar -xf "${CLFS_OUT}/${_archive}"
 			popd > /dev/null
@@ -46,7 +49,7 @@ untar_clfs ()
 #			echo ${ERR_FLAG} > ${_LOG}/${_ID}/${_ID}_flag
 			date >> "${_log}"
 		else
-			scripts_ctools "${1}"
+			scripts_clfs "${1}"
 		fi
 	fi
 }

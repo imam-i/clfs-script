@@ -51,7 +51,7 @@ do
 			TOOLS_CLFS_FLAG=1
 		;;
 		-s | --system)
-			SYSTEM_CLFS_FLAG=3
+			SYSTEM_CLFS_FLAG=1
 		;;
 		-b | --blfs)
 			BLFS_FLAG=1
@@ -64,7 +64,7 @@ do
 		;;
 		--clean)
 			if [ -z "$(fgrep "${CLFS}" /proc/mounts)" ]; then
-				rm -Rfv ${BUILD_DIR} /tools ${CLFS} ${CLFS_OUT}
+				rm -Rfv ${BUILD_DIR} ${CLFS} ${CLFS_OUT}
 			else
 				color-echo 'Остались смонтироваными ФС!' ${RED}
 				exit 1
@@ -102,7 +102,7 @@ packages_clfs
 tools_clfs
 
 # Сборка основной системы.
-#system_clfs
+system_clfs
 
 # Сборка BLFS.
 #beyond_clfs

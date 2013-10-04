@@ -53,8 +53,9 @@ else
 	done
 fi
 
-install -d ${CLFS_LOG} ${CLFS_SRC}
-chmod -v a+wt ${CLFS_SRC}
+install -d ${CLFS_LOG} ${CLFS_SRC} ${CLFS_PKG}
+install -d ${CLFS}/var/{lib/pacman,/cache/pacman/pkg,log}
+#chmod -v a+wt ${CLFS_SRC}
 }
 
 #####################################Z###########################################

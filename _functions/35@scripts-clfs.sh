@@ -1,9 +1,9 @@
 #!/bin/bash
 ################################################################################
-# Функция "scripts_ctools"
+# Функция "scripts_clfs"
 # Version: 0.1
 
-scripts_ctools ()
+scripts_clfs ()
 {
 local _ID=${1:0:2}
 local _archive="${_ID}_${CLFS_ARCH}_clfs.tar.bz2"
@@ -12,7 +12,7 @@ local _archive="${_ID}_${CLFS_ARCH}_clfs.tar.bz2"
 rm -Rf ${_LOG}/${_ID} ${CLFS_SRC}/${_archive}
 install -dv ${_LOG}/${_ID}
 
-color-echo 'scripts-ctools.sh' ${MAGENTA}
+color-echo 'scripts-clfs.sh' ${MAGENTA}
 color-echo "1 : ${1}" ${MAGENTA}
 color-echo "2 : ${2}" ${MAGENTA}
 color-echo "3 : ${3}" ${MAGENTA}
@@ -35,15 +35,18 @@ echo '+++++++++++++++++++++++++++++++++++++++' >> "${_LOG}/${_ID}/${_ID}_clfs.lo
 unset _pack_var
 
 local _script
-for _script in ${CLFS_PWD}/${PREFIX}/ctools/${_ID}_*/${_ID}.[0-9][0-9]*.sh
+for _script in ${CLFS_PWD}/${PREFIX}/${CLFS_FLAG/_}/${_ID}_*/${_ID}.[0-9][0-9]_*
 do
 	local _file=`basename "${_script}"`
 	local _NAME=`echo ${_file} | cut -d_ -f2 | cut -d. -f1`
 
-	local _log="${_LOG}/${_ID}/${_file}.log"
-	if [[ -f ${_log} ]]; then
-		rm -vf ${_log}
+	if [[ -f ${_script} ]]; then
+		local _log="${_LOG}/${_ID}/${_file}.log"
+	else
+		local _log="${_LOG}/${_ID}/${_file}_dir.log"
+		continue
 	fi
+	[[ -f ${_log} ]] && rm -vf ${_log}
 	local logpipe=$(mktemp -u "${_LOG}/${_ID}/logpipe.XXXXXXXX")
 	mkfifo "${logpipe}"
 	tee "${_log}" < "${logpipe}" &
@@ -57,7 +60,30 @@ do
 	while [ true ]
 	do
 		echo "${_ID}    ${name}    ${_file}"
-		. ${_script} || ERR_FLAG=${?}
+		if [ -f ${_script} ]; then
+			. ${_script} || ERR_FLAG=${?}
+		else
+			date
+			local _url=$(echo ${url} | sed -e "s/_version/${version}/g")
+
+			# Проверка на наличие патчей
+			for (( n=1; n <= 9; n++ ))
+			do
+				local urlpatch="urlpatch${n}"
+				if [ "${!urlpatch}" ]; then
+					_url="${_url}"$'\n'$(echo ${!urlpatch} | sed -e "s/_version/${version}/g")
+					local md5patch="md5patch${n}"
+					md5="${md5}"$'\n'${!md5patch}
+				fi
+			done
+
+			export name version _url md5
+			pushd ${_script}
+				makepkg_clfs ${_file} || ERR_FLAG=${?}
+				pacman_clfs ${_file} || ERR_FLAG=${?}
+			popd
+			unset name version _url md5
+		fi
 		if [ ${ERR_FLAG} -ne 0 ]; then
 			color-echo "ERROR: ${_file}" ${RED}
 			color-echo "Повторить - r" ${YELLOW}
@@ -68,13 +94,13 @@ do
 			case ${_flag} in
 				'r')
 					ERR_FLAG=0
-					popd
+					popd || true
 					[ -d ${BUILD_DIR} ] && rm -Rf ${BUILD_DIR}/*
 					local _flag=''
 					continue
 				;;
 				'c')
-					popd
+					popd || true
 					ERR_FLAG=0
 					local _flag=''
 				;;
@@ -103,14 +129,14 @@ else
 fi
 
 if [ "${_ID}" = '05' ]; then
-	color-echo "Создание переменной: \"${_ID}-cross-tools\"" ${GREEN}
-	local _files=`find ${CLFS}/cross-tools | sed -e '1d'`
-	pushd ${CLFS_OUT}
+	pushd ${CLFS}
+		color-echo "Создание переменной: \"${_ID}-cross-tools\"" ${GREEN}
+		local _files=`find ./cross-tools | sed -e '1d'`
 		color-echo "Создание архива: \"${_archive}\"" ${GREEN}
-		tar -cjf ${_archive} ${_files}
+		tar -cjf ${CLFS_OUT}/${_archive} ${_files}
 
 		color-echo "Проверка архива: \"${_archive}\"" ${GREEN}
-		bzip2 -t ${_archive}
+		bzip2 -t ${CLFS_OUT}/${_archive}
 	popd
 fi
 

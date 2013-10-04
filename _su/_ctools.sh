@@ -40,22 +40,20 @@ _LOG="${CLFS_LOG}/ctools"
 install -d ${_LOG}
 
 case ${TOOLS_CLFS_FLAG} in
-	3)	# 11
-		scripts_ctools '04.Final Preparations'	#-1
-		scripts_ctools 'pm.Pacman'	#1-
-		;;
-	2)	# 10
-		scripts_ctools 'pm.Pacman' '04.Final Preparations'	#1-
-		;;
+#	3)	# 11
+#		scripts_ctools '04.Final Preparations'	#-1
+#		scripts_ctools 'pm.Pacman'	#1-
+#		;;
+#	2)	# 10
+#		scripts_ctools 'pm.Pacman' '04.Final Preparations'	#1-
+#		;;
 	1)	# -1
-		scripts_ctools '04.Final Preparations'		#-1
-		scripts_ctools '05.Constructing Cross-Compile Tools'
+		scripts_clfs '04.Final Preparations'		#-1
+		scripts_clfs '05.Constructing Cross-Compile Tools'
 		;;
 	0)	# 00
-		if [ "${CHROOT_FLAG}" -gt 0 ] || \
-		   [ "${SYSTEM_CLFS_FLAG}" -gt 0 ] || \
-		   [ "${BLFS_FLAG}" -gt 0 ]; then
-			untar_clfs 'pm.Pacman' '04.Final Preparations'	#1-
+		if [ "${SYSTEM_CLFS_FLAG}" -gt 0 ]; then
+			untar_clfs '05.Constructing Cross-Compile Tools'	#1-
 		else
 			return 0
 		fi

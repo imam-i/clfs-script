@@ -81,8 +81,14 @@ ${CLFS_PWD}/_su/_ctools.sh ${TOOLS_CLFS_FLAG} ${SYSTEM_CLFS_FLAG} ${BLFS_FLAG} $
 exit \${?}
 EOF
 # ---------------------------------
-color-echo "Смена прав на каталоги: clfs /home/clfs ${CLFS} ${CLFS_SRC} ${CLFS_LOG} ${CLFS_OUT} ${BUILD_DIR}" ${CYAN}
-chown -R clfs /home/clfs "${CLFS}" "${CLFS_SRC}" "${CLFS_LOG}" "${CLFS_OUT}" "${BUILD_DIR}"
+color-echo "Смена прав на каталоги: clfs /home/clfs ${CLFS} ${CLFS_SRC} ${CLFS_LOG} ${CLFS_OUT} ${CLFS_PKG} ${BUILD_DIR} ${CLFS_PWD}/${PREFIX}/ctools" ${CYAN}
+chown -R clfs /home/clfs "${CLFS}" "${CLFS_SRC}" "${CLFS_LOG}" "${CLFS_OUT}" "${CLFS_PKG}" "${BUILD_DIR}" "${CLFS_PWD}/${PREFIX}/ctools"
+
+sed -e "/^PKGDEST=/ c\PKGDEST=${CLFS_PKG}" \
+    -e "/^SRCDEST=/ c\SRCDEST=${CLFS_SRC}" \
+    -i ${CLFS_CONF}/makepkg.conf
+
+pacman_no_root
 
 su - clfs
 
