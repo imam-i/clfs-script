@@ -14,7 +14,7 @@ color-echo "tools_clfs" ${YELLOW}
 date > "${CLFS_LOG}/tools_clfs.log"
 
 # Основные каталоги и ссылки
-install -dv ${CLFS}/cross-tools{,/bin} ${CLFS_SRC}
+install -dv ${CLFS_CROSS_TOOLS}{,/bin} ${CLFS_SRC}
 
 # Очистка сборочной папки
 rm -Rf ${BUILD_DIR}
@@ -40,8 +40,9 @@ cat > /home/clfs/.bashrc << EOF
 set +h
 umask 022
 CLFS=${CLFS}
+CLFS_CROSS_TOOLS=${CLFS_CROSS_TOOLS}
 LC_ALL=POSIX
-PATH=${CLFS}/cross-tools/bin:/bin:/usr/bin
+PATH=${CLFS_CROSS_TOOLS}/bin:/bin:/usr/bin
 export CLFS LC_ALL PATH
 
 # Clear compiler flags
@@ -81,8 +82,8 @@ ${CLFS_PWD}/_su/_ctools.sh ${TOOLS_CLFS_FLAG} ${SYSTEM_CLFS_FLAG} ${BLFS_FLAG} $
 exit \${?}
 EOF
 # ---------------------------------
-color-echo "Смена прав на каталоги: clfs /home/clfs ${CLFS} ${CLFS_SRC} ${CLFS_LOG} ${CLFS_OUT} ${CLFS_PKG} ${BUILD_DIR} ${CLFS_PWD}/${PREFIX}/ctools" ${CYAN}
-chown -R clfs /home/clfs "${CLFS}" "${CLFS_SRC}" "${CLFS_LOG}" "${CLFS_OUT}" "${CLFS_PKG}" "${BUILD_DIR}" "${CLFS_PWD}/${PREFIX}/ctools"
+color-echo "Смена прав на каталоги: clfs /home/clfs ${CLFS} ${CLFS_SRC} ${CLFS_LOG} ${CLFS_OUT} ${CLFS_PKG} ${BUILD_DIR} ${CLFS_PWD}/${PREFIX}/tools_clfs" ${CYAN}
+chown -R clfs /home/clfs "${CLFS}" "${CLFS_SRC}" "${CLFS_LOG}" "${CLFS_OUT}" "${CLFS_PKG}" "${BUILD_DIR}" "${CLFS_PWD}/${PREFIX}/tools_clfs"
 
 sed -e "/^PKGDEST=/ c\PKGDEST=${CLFS_PKG}" \
     -e "/^SRCDEST=/ c\SRCDEST=${CLFS_SRC}" \

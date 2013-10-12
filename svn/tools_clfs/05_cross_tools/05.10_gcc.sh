@@ -5,17 +5,17 @@ unarch || return ${?}
 cd ./${PACK}
 
 mkdir -v ../gcc-build && cd ../gcc-build
-AR=ar LDFLAGS="-Wl,-rpath,${CLFS}/cross-tools/lib" \
-  ../${PACK}/configure --prefix=${CLFS}/cross-tools \
+AR=ar LDFLAGS="-Wl,-rpath,${CLFS_CROSS_TOOLS}/lib" \
+  ../${PACK}/configure --prefix=${CLFS_CROSS_TOOLS} \
                        --build=${CLFS_HOST} \
                        --host=${CLFS_HOST} \
                        --target=${CLFS_TARGET} \
                        --with-sysroot=${CLFS} \
                        --disable-nls \
                        --disable-shared \
-                       --with-mpfr=${CLFS}/cross-tools \
-                       --with-gmp=${CLFS}/cross-tools \
-                       --with-mpc=${CLFS}/cross-tools \
+                       --with-mpfr=${CLFS_CROSS_TOOLS} \
+                       --with-gmp=${CLFS_CROSS_TOOLS} \
+                       --with-mpc=${CLFS_CROSS_TOOLS} \
                        --without-headers \
                        --with-newlib \
                        --disable-decimal-float \

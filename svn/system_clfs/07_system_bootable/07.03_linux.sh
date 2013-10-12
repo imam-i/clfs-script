@@ -6,9 +6,12 @@
 #unarch || return ${?}
 pushd ${CLFS_SRC}/linux || return ${?}
 
+CLFS_CROSS_COMPILE=${CLFS_CROSS_TOOLS}/bin/${CLFS_TARGET}-
+
 # Linux
 make mrproper || return ${?}
 make ARCH=${CLFS_ARCH} bcmrpi_cutdown_defconfig || return ${?}
+#sed -e "/^# CONFIG_NETFILTER is not set/r `dirname ${_script}`/config_xtables" -i .config
 make ARCH=${CLFS_ARCH} CROSS_COMPILE=${CLFS_CROSS_COMPILE} oldconfig || return ${?}
 make ARCH=${CLFS_ARCH} CROSS_COMPILE=${CLFS_CROSS_COMPILE} || return ${?}
 make ARCH=${CLFS_ARCH} CROSS_COMPILE=${CLFS_CROSS_COMPILE} \

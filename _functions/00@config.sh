@@ -12,6 +12,7 @@ local CLFS_LOG="${CLFS_OUT}/log"
 local CLFS_CONF="${CLFS_PWD}/conf"
 local BUILD_DIR="${CLFS_PWD}/build"
 
+local CLFS_CROSS_TOOLS=${CLFS}/cross-tools
 local CLFS_ARCH='arm'
 
 local PACKAGE_MANAGER='pacman'

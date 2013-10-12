@@ -36,7 +36,7 @@ sed -e "/\/_su\/_ctools.sh/d" \
 array_packages
 
 # Каталог для хронения лог-файлов tools
-_LOG="${CLFS_LOG}/ctools"
+_LOG="${CLFS_LOG}/tools_clfs"
 install -d ${_LOG}
 
 case ${TOOLS_CLFS_FLAG} in
@@ -53,7 +53,7 @@ case ${TOOLS_CLFS_FLAG} in
 		;;
 	0)	# 00
 		if [ "${SYSTEM_CLFS_FLAG}" -gt 0 ]; then
-			untar_clfs '05.Constructing Cross-Compile Tools'	#1-
+			untar_clfs '05.Constructing Cross-Compile Tools'
 		else
 			return 0
 		fi

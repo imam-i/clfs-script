@@ -15,6 +15,8 @@ fi
 echo "${name} ${version}"
 date
 
+ls -l ${CLFS}
+
 url=$(echo ${url} | sed -e "s@_version@${version}@g")
 
 local _archname=`basename ${url}`

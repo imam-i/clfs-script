@@ -36,7 +36,7 @@ sed -e "/\/_su\/_csystem.sh/d" \
 array_packages
 
 # Каталог для хронения лог-файлов tools
-_LOG="${CLFS_LOG}/csystem"
+_LOG="${CLFS_LOG}/system_clfs"
 install -d ${_LOG}
 
 case ${SYSTEM_CLFS_FLAG} in
@@ -51,6 +51,9 @@ case ${SYSTEM_CLFS_FLAG} in
 		scripts_clfs '06.Installing Basic System Software'		#-1
 		scripts_clfs '07.Making the CLFS System Bootable'
 		scripts_clfs '08.Setting Up System Bootscripts'
+		scripts_clfs '11.Additional Libraries'
+		scripts_clfs '12.Networking Software'
+		scripts_clfs '13.File System Tools'
 #		scripts_ctools '05.Constructing Cross-Compile Tools'
 		;;
 	0)	# 00
@@ -63,7 +66,8 @@ case ${SYSTEM_CLFS_FLAG} in
 	*) echo 'Не верный параметер константы "TOOLS_CLFS_FLAG"' ;;
 esac
 
-if [ "${ERR_FLAG}" -eq 0 ] && [ "${MOUNT_LFS_FLAG}" -ne 0 ]; then
+#if [ "${ERR_FLAG}" -eq 0 ] && [ "${MOUNT_CLFS_FLAG}" -ne 0 ]; then
+if [ "${ERR_FLAG}" -eq 0 ]; then
 
 # fstab
 cat > ${CLFS}/etc/fstab << "EOF"
@@ -90,7 +94,7 @@ do
 	esac
 done
 
-cat > ${CLFS}/etc/fstab << "EOF"
+cat >> ${CLFS}/etc/fstab << "EOF"
 proc           /proc        proc   defaults         0     0
 sysfs          /sys         sysfs  defaults         0     0
 devpts         /dev/pts     devpts gid=4,mode=620   0     0

@@ -35,7 +35,7 @@ echo '+++++++++++++++++++++++++++++++++++++++' >> "${_LOG}/${_ID}/${_ID}_clfs.lo
 unset _pack_var
 
 local _script
-for _script in ${CLFS_PWD}/${PREFIX}/${CLFS_FLAG/_}/${_ID}_*/${_ID}.[0-9][0-9]_*
+for _script in ${CLFS_PWD}/${PREFIX}/`basename ${_LOG}`/${_ID}_*/${_ID}.[0-9][0-9]_*
 do
 	local _file=`basename "${_script}"`
 	local _NAME=`echo ${_file} | cut -d_ -f2 | cut -d. -f1`
@@ -84,12 +84,13 @@ do
 			popd
 			unset name version _url md5
 		fi
-		if [ ${ERR_FLAG} -ne 0 ]; then
+		local _flag=''
+		while [ ${ERR_FLAG} -ne 0 ] && [ "${_flag}" = '' ]
+		do
 			color-echo "ERROR: ${_file}" ${RED}
 			color-echo "Повторить - r" ${YELLOW}
 			color-echo "Пропустить - c" ${YELLOW}
 			color-echo "Остановить - x" ${YELLOW}
-			local _flag=''
 			read _flag
 			case ${_flag} in
 				'r')
@@ -97,16 +98,17 @@ do
 					popd || true
 					[ -d ${BUILD_DIR} ] && rm -Rf ${BUILD_DIR}/*
 					local _flag=''
-					continue
+					continue 2
 				;;
 				'c')
 					popd || true
 					ERR_FLAG=0
 					local _flag=''
 				;;
-				*)	return ${ERR_FLAG} ;;
+				'x')      return ${ERR_FLAG} ;;
+#				*)	return ${ERR_FLAG} ;;
 			esac
-		fi
+		done
 		break
 	done &>"${logpipe}"
 
@@ -131,8 +133,9 @@ fi
 if [ "${_ID}" = '05' ]; then
 	pushd ${CLFS}
 		color-echo "Создание переменной: \"${_ID}-cross-tools\"" ${GREEN}
-		local _files=`find ./cross-tools | sed -e '1d'`
+		local _files=`find ./ | sed -e '1d'`
 		color-echo "Создание архива: \"${_archive}\"" ${GREEN}
+		[ -f ${CLFS_OUT}/${_archive} ] && rm -f ${CLFS_OUT}/${_archive}
 		tar -cjf ${CLFS_OUT}/${_archive} ${_files}
 
 		color-echo "Проверка архива: \"${_archive}\"" ${GREEN}

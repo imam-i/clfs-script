@@ -20,7 +20,7 @@ untar_clfs ()
 			untar_clfs "${1}"
 		else
 			scripts_clfs "${2}"
-			scripts_clfs "${1}"
+			untar_clfs "${1}"
 		fi
 	else
 		if [ -f ${CLFS_OUT}/${_archive} ]; then
