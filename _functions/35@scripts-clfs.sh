@@ -44,6 +44,7 @@ do
 		local _log="${_LOG}/${_ID}/${_file}.log"
 	else
 		local _log="${_LOG}/${_ID}/${_file}_dir.log"
+		# Отключена ссборка пакетов pacman.
 		continue
 	fi
 	[[ -f ${_log} ]] && rm -vf ${_log}
@@ -130,8 +131,8 @@ else
 	return ${ERR_FLAG}
 fi
 
-if [ "${_ID}" = '05' ]; then
-	pushd ${CLFS}
+if [ "${_ID}" = '04' ]; then
+	pushd ${CLFS_CROSS_TOOLS}
 		color-echo "Создание переменной: \"${_ID}-cross-tools\"" ${GREEN}
 		local _files=`find ./ | sed -e '1d'`
 		color-echo "Создание архива: \"${_archive}\"" ${GREEN}

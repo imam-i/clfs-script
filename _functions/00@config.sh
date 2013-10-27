@@ -27,14 +27,14 @@ local ns2_IP='8.8.8.8'
 
 # flags
 local CLFS_FLAG='clfs'
-#local CHROOT_FLAG=${CHROOT_FLAG:-0}
+local SU_FLAG=${SU_FLAG:-0}
 #local J2_CLFS_FLAG="$(( `grep -c '^processor' /proc/cpuinfo` + 1 ))"
 local PACKAGE_MANAGER_FLAG=${PACKAGE_MANAGER_FLAG:-1}
 local MOUNT_CLFS_FLAG=${MOUNT_CLFS_FLAG:-0}
 local PACKAGES_CLFS_FLAG=${PACKAGES_CLFS_FLAG:-0}
 local TOOLS_CLFS_FLAG=${TOOLS_CLFS_FLAG:-0}		# 0 = 00; 1 = -1; 2 = 10; 3 = 11.
 local SYSTEM_CLFS_FLAG=${SYSTEM_CLFS_FLAG:-0}		# 0 = 00; 1 = -1; 2 = 10; 3 = 11.
-#local BLFS_FLAG=${BLFS_FLAG:-0}
+local BLFS_FLAG=${BLFS_FLAG:-0}
 local ERR_FLAG=${ERR_FLAG:-0}
 
 #######################################

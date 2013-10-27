@@ -43,18 +43,18 @@ else
 			[ ${MOUNT_CLFS_FLAG} -ne 0 ] && swapon -v ${_section}
 			;;
 		    * )
-			install -dv "${CLFS}${_mount_point}"
+			install -dv "${CLFS}/targetfs${_mount_point}"
 			color-echo "Форматированние: ${_section} в ${_type}" ${CYAN}
 			[ ${MOUNT_CLFS_FLAG} -ne 0 ] && ${_mke2fs} ${_section}
 			color-echo "Монтирование: ${_section} в ${_mount_point}" ${CYAN}
-			[ ${MOUNT_CLFS_FLAG} -ne 0 ] && ${_mount} ${_section} "${CLFS}${_mount_point}"
+			[ ${MOUNT_CLFS_FLAG} -ne 0 ] && ${_mount} ${_section} "${CLFS}/targetfs${_mount_point}"
 			;;
 		esac
 	done
 fi
 
 install -d ${CLFS_LOG} ${CLFS_SRC} ${CLFS_PKG}
-install -d ${CLFS}/var/{lib/pacman,/cache/pacman/pkg,log}
+install -d ${CLFS}/targetfs/var/{lib/pacman,/cache/pacman/pkg,log}
 #chmod -v a+wt ${CLFS_SRC}
 }
 

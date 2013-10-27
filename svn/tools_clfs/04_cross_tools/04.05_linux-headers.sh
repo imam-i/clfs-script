@@ -4,12 +4,11 @@
 
 #pushd ${BUILD_DIR}
 #unarch || return ${?}
-pushd ${CLFS_SRC}/bootscripts-embedded || return ${?}
+pushd ${CLFS_SRC}/linux || return ${?}
 
-make DESTDIR=${CLFS} install-bootscripts || return ${?}
-install -dv ${CLFS}/etc/init.d || return ${?}
-ln -sv ../rc.d/startup ${CLFS}/etc/init.d/rcS || return ${?}
-
+make mrproper || return ${?}
+make ARCH=${CLFS_ARCH} headers_check || return ${?}
+make ARCH=${CLFS_ARCH} INSTALL_HDR_PATH=${CLFS_CROSS_TOOLS}/${CLFS_TARGET} headers_install || return ${?}
 popd
 
 #######################################

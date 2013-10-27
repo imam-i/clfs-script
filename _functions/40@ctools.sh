@@ -33,14 +33,18 @@ fi
 yes 'clfs' | passwd clfs
 
 cat > /home/clfs/.bash_profile << "EOF"
-exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash
+exec env -i HOME=${HOME} TERM=${TERM} PS1='\u:\w\$ ' /bin/bash
 EOF
 
 cat > /home/clfs/.bashrc << EOF
 set +h
 umask 022
 CLFS=${CLFS}
-CLFS_CROSS_TOOLS=${CLFS_CROSS_TOOLS}
+
+# назначаем переменные CLFS_PWD CLFS_CROSS_TOOLS
+export CLFS_PWD=${CLFS_PWD}
+export CLFS_CROSS_TOOLS=${CLFS_CROSS_TOOLS}
+
 LC_ALL=POSIX
 PATH=${CLFS_CROSS_TOOLS}/bin:/bin:/usr/bin
 export CLFS LC_ALL PATH
@@ -48,25 +52,20 @@ export CLFS LC_ALL PATH
 # Clear compiler flags
 unset CFLAGS
 unset CXXFLAGS
- 
-# Set ABI
-export CLFS_ABI=aapcs-linux
-
-# Set host and target
-export CLFS_HOST=$(echo ${MACHTYPE} | sed "s/-[^-]*/-cross/")
-export CLFS_TARGET=arm-unknown-linux-uclibcgnueabi
-
-# Set architecture and endianess
-export CLFS_ARCH=arm
-export CLFS_ENDIAN=little
-
-# Set specific ARM architecture
-export CLFS_ARM_ARCH=armv6zk
-export CLFS_ARM_MODE=arm
 
 # Set hw float of type vfp
 export CLFS_FLOAT=hard
 export CLFS_FPU=vfp
+
+# Set host and target
+export CLFS_HOST=$(echo ${MACHTYPE} | sed "s/-[^-]*/-cross/")
+export CLFS_TARGET=arm-linux-musleabi
+
+# Set architecture and endianess
+export CLFS_ARCH=arm
+
+# Set specific ARM architecture
+export CLFS_ARM_ARCH=armv6zk
 EOF
 
 #if [ ${J2_LFS_FLAG} -gt 0 ]; then
@@ -75,10 +74,8 @@ EOF
 
 # ---------------------------------
 cat >> /home/clfs/.bashrc << EOF
-CLFS_PWD="${CLFS_PWD}"
-export CLFS_PWD
 
-${CLFS_PWD}/_su/_ctools.sh ${TOOLS_CLFS_FLAG} ${SYSTEM_CLFS_FLAG} ${BLFS_FLAG} ${CHROOT_FLAG}
+${CLFS_PWD}/_su/_ctools.sh ${TOOLS_CLFS_FLAG} ${SYSTEM_CLFS_FLAG} ${BLFS_FLAG} ${SU_FLAG}
 exit \${?}
 EOF
 # ---------------------------------

@@ -16,7 +16,7 @@ local CLFS_FLAG='_tools-clfs'
 local TOOLS_CLFS_FLAG=${1}
 local SYSTEM_CLFS_FLAG=${2}
 local BLFS_FLAG=${3}
-local CHROOT_FLAG=${4}
+local SU_FLAG=${4}
 
 # Перехватываем ошибки.
 local restoretrap
@@ -32,6 +32,10 @@ sed -e "/\/_su\/_ctools.sh/d" \
     -e '/^exit/d' \
     -i ~/.bashrc
 
+# 4.4. Create the Sysroot Directory
+mkdir -p ${CLFS_CROSS_TOOLS}/${CLFS_TARGET}
+ln -sfv . ${CLFS_CROSS_TOOLS}/${CLFS_TARGET}/usr
+
 # Назначение переменных (массивов) хроняших информацию о пакетах.
 array_packages
 
@@ -40,20 +44,12 @@ _LOG="${CLFS_LOG}/tools_clfs"
 install -d ${_LOG}
 
 case ${TOOLS_CLFS_FLAG} in
-#	3)	# 11
-#		scripts_ctools '04.Final Preparations'	#-1
-#		scripts_ctools 'pm.Pacman'	#1-
-#		;;
-#	2)	# 10
-#		scripts_ctools 'pm.Pacman' '04.Final Preparations'	#1-
-#		;;
 	1)	# -1
-		scripts_clfs '04.Final Preparations'		#-1
-		scripts_clfs '05.Constructing Cross-Compile Tools'
+		scripts_clfs '04.Constructing Cross-Compile Tools'		#-1
 		;;
 	0)	# 00
-		if [ "${SYSTEM_CLFS_FLAG}" -gt 0 ]; then
-			untar_clfs '05.Constructing Cross-Compile Tools'
+		if [ "${SYSTEM_CLFS_FLAG}" -gt 0 ] || [ "${SU_FLAG}" -gt 0 ]; then
+			untar_clfs '04.Constructing Cross-Compile Tools'
 		else
 			return 0
 		fi

@@ -32,7 +32,7 @@ if [ "$#" -eq 0 ]; then
 
 -m | --mount	Смонтировать разделы из файла ./disk для новой системы.
 -d | --download	Загрузка пакетов.
--c | --chroot	По завершению установки войти в систему с chroot.
+-u | --su	Вход в систему под пользователем clfs.
 
 --clean		Очистка логов и результируюших пакетов.
 EOF
@@ -56,8 +56,8 @@ do
 		-b | --blfs)
 			BLFS_FLAG=1
 		;;
-		-c | --chroot)
-			CHROOT_FLAG=1
+		-u | --su)
+			SU_FLAG=1
 		;;
 		-d | --download)
 			PACKAGES_CLFS_FLAG=1
@@ -100,6 +100,9 @@ packages_clfs
 
 # Создание необходимых каталогов и сборка временной системы.
 tools_clfs
+
+# Входим в su - clfs
+#su_clfs
 
 # Сборка основной системы.
 system_clfs
