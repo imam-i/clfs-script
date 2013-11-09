@@ -37,16 +37,10 @@ untar_clfs ()
 			bzip2 -t ${CLFS_OUT}/${_archive}
 
 			color-echo "Распаковка архива: \"${_archive}\"" ${CYAN}
-			pushd ${CLFS} > /dev/null
+			pushd ${CLFS_CROSS_TOOLS} > /dev/null
 				tar -xf "${CLFS_OUT}/${_archive}"
 			popd > /dev/null
 
-#			color-echo "Создание файла: \"${_ID}-files\"" ${GREEN}
-#			find /tools/ | sed -e '1d' > ${_LOG}/${_ID}/${_ID}-files
-			#find /tools/ -type f > ${_LOG}/${_ID}/${_ID}-files
-			#find /tools/ -type d > ${_LOG}/${_ID}/${_ID}-directory
-
-#			echo ${ERR_FLAG} > ${_LOG}/${_ID}/${_ID}_flag
 			date >> "${_log}"
 		else
 			scripts_clfs "${1}"

@@ -12,7 +12,7 @@ mkdir -pv ${CLFS}/targetfs/usr/{,local/}{bin,include,lib,sbin,share,src}
 ln -svf ../proc/mounts ${CLFS}/targetfs/etc/mtab
 
 cat > ${CLFS}/targetfs/etc/passwd << "EOF"
-root::0:0:root:/root:/bin/ash
+root:*:0:0:root:/root:/bin/ash
 EOF
 
 cat > ${CLFS}/targetfs/etc/group << "EOF"

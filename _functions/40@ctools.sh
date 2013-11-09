@@ -59,7 +59,7 @@ export CLFS_FPU=vfp
 
 # Set host and target
 export CLFS_HOST=$(echo ${MACHTYPE} | sed "s/-[^-]*/-cross/")
-export CLFS_TARGET=arm-linux-musleabi
+export CLFS_TARGET=arm-linux-musleabihf
 
 # Set architecture and endianess
 export CLFS_ARCH=arm

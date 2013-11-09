@@ -63,7 +63,7 @@ if [ "${ERR_FLAG}" -eq 0 ]; then
 
 # 12.1. Copy Libraries
 cp -vP ${CLFS_CROSS_TOOLS}/${CLFS_TARGET}/lib/*.so* ${CLFS}/targetfs/lib/
-${CLFS_TARGET}-strip ${CLFS}/targetfs/lib/*
+${CLFS_TARGET}-strip ${CLFS}/targetfs/lib/* || true
 
 # 6.2. Creating the /etc/fstab File
 cat > ${CLFS}/targetfs/etc/fstab << "EOF"
@@ -81,16 +81,16 @@ do
 	local _mount_point=$(echo ${_disk} | cut -d: -f2)
 	local _type=$(echo ${_disk} | cut -d: -f3)
 	case ${_mount_point} in
-		'swap') echo "${_section}      swap         ${_type}   pri=1              0     0" >> ${CLFS}/etc/fstab ;;
-		'/')	echo "${_section}      ${_mount_point}            ${_type}   defaults        0     1" >> ${CLFS}/etc/fstab
+		'swap') echo "${_section}      swap         ${_type}   pri=1              0     0" >> ${CLFS}/targetfs/etc/fstab ;;
+		'/')	echo "${_section}      ${_mount_point}            ${_type}   defaults        0     1" >> ${CLFS}/targetfs/etc/fstab
 			_ROOT="${_section}"
 			;;
-		'/boot') echo "${_section}     ${_mount_point}         ${_type}   defaults        1     2" >> ${CLFS}/etc/fstab ;;
-		*)	echo "${_section}      ${_mount_point}         ${_type}   defaults        0     0" >> ${CLFS}/etc/fstab ;;
+		'/boot') echo "${_section}     ${_mount_point}         ${_type}   defaults        1     2" >> ${CLFS}/targetfs/etc/fstab ;;
+		*)	echo "${_section}      ${_mount_point}         ${_type}   defaults        0     0" >> ${CLFS}/targetfs/etc/fstab ;;
 	esac
 done
 
-cat >> ${CLFS}/etc/fstab << "EOF"
+cat >> ${CLFS}/targetfs/etc/fstab << "EOF"
 proc           /proc        proc   defaults         0     0
 sysfs          /sys         sysfs  defaults         0     0
 devpts         /dev/pts     devpts gid=4,mode=620   0     0
@@ -98,7 +98,7 @@ shm            /dev/shm     tmpfs  defaults         0     0
 # End /etc/fstab
 EOF
 
-cat > /mnt/clfs/boot/cmdline.txt << EOF
+cat > /mnt/clfs/targetfs/boot/cmdline.txt << EOF
 root=${_ROOT} rootdelay=${_ROOT: -1}
 EOF
 
