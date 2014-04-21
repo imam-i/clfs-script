@@ -25,7 +25,7 @@ pushd ${BUILD_DIR}
 	make install
 popd
 
-clear_per "${_pack_var}"
+f_clear_per "${_pack_var}"
 unset _pack_var
 }
 

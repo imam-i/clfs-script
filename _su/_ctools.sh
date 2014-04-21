@@ -3,7 +3,7 @@
 # Функция "_tools_clfs"
 # Version: 0.1
 
-_tools_clfs ()
+_f_tools_clfs ()
 {
 cd ${CLFS_PWD}
 for _functions in ${CLFS_PWD}/_functions/*.sh
@@ -32,34 +32,34 @@ sed -e "/\/_su\/_ctools.sh/d" \
     -e '/^exit/d' \
     -i ~/.bashrc
 
-# 4.4. Create the Sysroot Directory
-mkdir -p ${CLFS_CROSS_TOOLS}/${CLFS_TARGET}
-ln -sfv . ${CLFS_CROSS_TOOLS}/${CLFS_TARGET}/usr
-
-# Назначение переменных (массивов) хроняших информацию о пакетах.
-array_packages
-
 # Каталог для хронения лог-файлов tools
-_LOG="${CLFS_LOG}/tools_clfs"
-install -d ${_LOG}
+LOG_DIR="${CLFS_LOG}/tools_clfs"
+install -d ${LOG_DIR}
 
-case ${TOOLS_CLFS_FLAG} in
-	1)	# -1
-		scripts_clfs '04.Constructing Cross-Compile Tools'		#-1
-		;;
-	0)	# 00
-		if [ "${SYSTEM_CLFS_FLAG}" -gt 0 ] || [ "${SU_FLAG}" -gt 0 ]; then
-			untar_clfs '04.Constructing Cross-Compile Tools'
-		else
-			return 0
-		fi
-		;;
-	*) echo 'Не верный параметер константы "TOOLS_CLFS_FLAG"' ;;
-esac
+f_scripts_clfs '05.Constructing Cross-Compile Tools'
+
+# 6.2. Build Variables
+export CC="${CLFS_TARGET}-gcc"
+export CXX="${CLFS_TARGET}-g++"
+export AR="${CLFS_TARGET}-ar"
+export AS="${CLFS_TARGET}-as"
+export RANLIB="${CLFS_TARGET}-ranlib"
+export LD="${CLFS_TARGET}-ld"
+export STRIP="${CLFS_TARGET}-strip"
+
+echo export CC=\""${CC}\"" >> ~/.bashrc
+echo export CXX=\""${CXX}\"" >> ~/.bashrc
+echo export AR=\""${AR}\"" >> ~/.bashrc
+echo export AS=\""${AS}\"" >> ~/.bashrc
+echo export RANLIB=\""${RANLIB}\"" >> ~/.bashrc
+echo export LD=\""${LD}\"" >> ~/.bashrc
+echo export STRIP=\""${STRIP}\"" >> ~/.bashrc
+
+f_scripts_clfs '06.Constructing a Temporary System'
 
 set +Ee
 }
 
-_tools_clfs $*
+_f_tools_clfs $*
 
 ################################################################################

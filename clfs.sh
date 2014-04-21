@@ -8,7 +8,7 @@ _clfs ()
 # Устанавливаем точное время.
 which ntpdate 2> /dev/null && ntpdate 0.europe.pool.ntp.org
 
-# Определяем основную переменную.
+# Определяем основную переменную CLFS_PWD.
 local CLFS_PWD=`dirname "${0}"`
 [ "${CLFS_PWD}" == '.' ] && local CLFS_PWD=`pwd`
 
@@ -24,6 +24,7 @@ if [ "$#" -eq 0 ]; then
 ./clfs.sh [ Опции ]
 
 Опции:
+-a | --arch	Укажите архитектуру rpi, x86_64, i686.
 -t | --tools	Сборка пакетов из раздела "5. Constructing a Temporary System" книги LFS.
 -s | --system	Сборка пакетов из раздела "6. Installing Basic System Software",
 		"7. Setting Up System Bootscripts" и
@@ -48,7 +49,7 @@ do
 			MOUNT_CLFS_FLAG=1
 		;;
 		-t | --tools)
-			TOOLS_CLFS_FLAG=1
+			TOOLS_CLFS_FLAG=2
 		;;
 		-s | --system)
 			SYSTEM_CLFS_FLAG=1
@@ -74,11 +75,25 @@ do
 	esac
 done
 
+case "${CLFS_ARCH}" in
+	'x86_64' | 'i686')	local CLFS_DISK="${CLFS_PWD}/disk.x86" ;;
+	'rpi')			local CLFS_DISK="${CLFS_PWD}/disk.rpi" ;;
+	*)
+		color-echo "Не известная архитектура: (${CLFS_ARCH}) !!!" ${RED}
+		exit 1
+	;;
+esac
+
+if [ ! -f "${CLFS_DISK}" ]; then
+	color-echo 'Отсутствует файл disk.' ${RED}
+	exit 1
+fi
+
 # Сменяем права доступа на скрипты если имеется пользователь i.
 [ -n "$(grep ^i: /etc/passwd 2> /dev/null)" ] && chown i:i -R ${CLFS_PWD}
 
 # Размонтирование разделов.
-umount_clfs || exit ${?}
+f_umount_clfs || exit ${?}
 
 # Перехватываем ошибки.
 local restoretrap
@@ -90,16 +105,16 @@ trap '_ERROR' ERR
 eval $restoretrap
 
 # Подготовка и монтирование разделов.
-mount_clfs
+f_mount_clfs
 
 # Назначение переменных (массивов) хроняших информацию о пакетах.
-array_packages
+#array_packages
 
 # Скачиваем пакеты.
-packages_clfs
+f_packages_clfs 'lfs.06.all'
 
 # Создание необходимых каталогов и сборка временной системы.
-tools_clfs
+f_tools_clfs
 
 # Входим в su - clfs
 #su_clfs
@@ -114,7 +129,7 @@ system_clfs
 #chroot_clfs
 
 # Размонтирование разделов и очистка системы.
-umount_clfs
+f_umount_clfs
 
 # Сменяем права доступа на скрипты если имеется пользователь i.
 [ -n "$(grep ^i: /etc/passwd 2> /dev/null)" ] && chown i:i -R ${CLFS_PWD}
