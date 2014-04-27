@@ -1,7 +1,7 @@
 #######################################
 
-pushd ${BUILD_DIR}
-f_unarch || return ${?}
+#pushd ${BUILD_DIR}
+#f_unarch || return ${?}
 cd ./${PACK}
 
 CC="${CC} ${BUILD64}" \

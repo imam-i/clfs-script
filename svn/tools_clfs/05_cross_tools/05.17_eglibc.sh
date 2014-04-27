@@ -1,7 +1,7 @@
 #######################################
 
-pushd ${BUILD_DIR}
-f_unarch || return ${?}
+#pushd ${BUILD_DIR}
+#f_unarch || return ${?}
 cd ./${name}-${version}
 
 sed -r -i 's/(3..89..)/\1 | 4.*/' configure

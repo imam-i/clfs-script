@@ -96,13 +96,8 @@ fi
 f_umount_clfs || exit ${?}
 
 # Перехватываем ошибки.
-local restoretrap
-
+trap _ERROR ERR
 set -eE
-
-restoretrap=`trap -p ERR`
-trap '_ERROR' ERR
-eval $restoretrap
 
 # Подготовка и монтирование разделов.
 f_mount_clfs

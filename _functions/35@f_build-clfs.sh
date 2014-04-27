@@ -12,7 +12,14 @@ while [ true ]
 do
 	echo "${ID}    ${name}    ${_file}"
 	if [ -f ${_script} ]; then
-		. ${_script} || ERR_FLAG=${?}
+		exec 6>&1 7>&2 8<&0
+		exec >> ${_log}
+
+		f_unarch || ERR_FLAG=${?}
+		. ${_script} | f_log NC || ERR_FLAG=${?}
+
+		exec 1>&6 2>&7 0<&8
+		exec 6>&- 7>&- 8<&-
 	else
 		date
 		local _url=`echo ${url} | sed -e "s/_version/${version}/g"`

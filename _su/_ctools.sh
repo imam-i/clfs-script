@@ -19,13 +19,8 @@ local BLFS_FLAG=${3}
 local SU_FLAG=${4}
 
 # Перехватываем ошибки.
-local restoretrap
-
-set -eE
-
-restoretrap=`trap -p ERR`
-trap '_ERROR' ERR
-eval $restoretrap
+trap _ERROR ERR
+set -eo pipefail
 
 # Удаляем запуск скрипта.
 sed -e "/\/_su\/_ctools.sh/d" \
@@ -57,7 +52,7 @@ echo export STRIP=\""${STRIP}\"" >> ~/.bashrc
 
 f_scripts_clfs '06.Constructing a Temporary System'
 
-set +Ee
+set +e
 }
 
 _f_tools_clfs $*

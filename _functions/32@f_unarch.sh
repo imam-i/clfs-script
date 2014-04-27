@@ -5,6 +5,7 @@
 
 f_unarch ()
 {
+pushd ${BUILD_DIR}
 if [ "${PWD}" = "${BUILD_DIR}" ]; then
 	rm -Rf ./*
 else
@@ -18,10 +19,11 @@ date
 url=`echo ${url} | sed -e "s@_version@${version}@g"`
 
 local _archname=`basename ${url}`
-echo
-color-echo "EXTRACT ARCHIVE: ${_archname}" ${WHITE}
-echo
-tar -xpf ${CLFS_SRC}/${_archname}
+#echo
+#color-echo "EXTRACT ARCHIVE: ${_archname}" ${WHITE} >&6
+#echo
+f_log WHITE "EXTRACT ARCHIVE: ${_archname}"
+tar -xpvf ${CLFS_SRC}/${_archname} | f_log NC
 PACK=`echo ${_archname} | sed -e 's@.tar.bz2@@g' -e 's@.tar.xz@@g' -e 's@.tar.gz@@g'`
 
 if [ "${#}" -ne 0 ]; then
@@ -39,10 +41,11 @@ if [ "${#}" -ne 0 ]; then
 
 		url=`echo ${url} | sed -e "s@_version@${version}@g"`
 		local _archname=`basename ${url}`
-		echo
-		color-echo "EXTRACT ARCHIVE: ${_archname}" ${WHITE}
-		echo
-		tar -xpf ${CLFS_SRC}/${_archname}
+#		echo
+#		color-echo "EXTRACT ARCHIVE: ${_archname}" ${WHITE}
+#		echo
+		f_log WHITE "EXTRACT ARCHIVE: ${_archname}"
+		tar -xpvf ${CLFS_SRC}/${_archname} | f_log NC
 
 		# Очистка переменных
 		f_clear_per "${_pack_var_unarch} _pack_var_unarch"

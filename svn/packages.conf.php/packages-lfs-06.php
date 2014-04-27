@@ -92,8 +92,8 @@ $arr = array (
 		'md5' => 'e3d203d188b8fe60bb6578dd3152e05c',
 		'url' => 'http://www.mpfr.org/mpfr-_version/mpfr-_version.tar.xz',
 
-		'md5patch1' => '9c3b271ded070f8cb202459165a87f88',
-		'urlpatch1' => 'http://patches.cross-lfs.org/dev/mpfr-_version-fixes-1.patch',
+		'md5patch1' => '2951be1103eb20a4acff2a8fce29ca22',
+		'urlpatch1' => 'http://patches.cross-lfs.org/dev/mpfr-_version-fixes-2.patch',
 
 		'depends_lfs' => 'lfs.06.gmp'
 	),

@@ -1,7 +1,7 @@
 #######################################
 
-pushd ${BUILD_DIR}
-f_unarch || return ${?}
+#pushd ${BUILD_DIR}
+#f_unarch || return ${?}
 cd ./${PACK}
 
 patch -Np1 -i ${CLFS_SRC}/${PACK}-branch_update-1.patch || return ${?}

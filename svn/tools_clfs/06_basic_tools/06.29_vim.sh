@@ -1,8 +1,8 @@
 #######################################
 
-pushd ${BUILD_DIR}
-f_unarch || return ${?}
-cd ./${PACK}
+#pushd ${BUILD_DIR}
+#f_unarch || return ${?}
+cd ./${name}${version/./}
 
 patch -Np1 -i ${CLFS_SRC}/${PACK}-branch_update-2.patch
 

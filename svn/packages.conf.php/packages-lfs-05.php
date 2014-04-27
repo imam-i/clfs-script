@@ -28,7 +28,7 @@ $arr = array (
 
 'check' => array (
 		'status' => '1',
-		'lfs' => '05',
+		'lfs' => '06',
 		'version' => '0.9.12',
 		'md5' => '46fe540d1a03714c7a1967dbc6d484e7',
 		'url' => 'http://sourceforge.net/projects/check/files/check/_version/check-_version.tar.gz'

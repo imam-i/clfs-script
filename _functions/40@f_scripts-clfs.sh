@@ -15,9 +15,9 @@ color-echo "2 : ${2}" ${MAGENTA}
 color-echo "3 : ${3}" ${MAGENTA}
 
 # Проверка зависимостей
-if [ -n "${2}" ]; then
-	f_scripts_clfs "${2}" "${3}"
-fi
+#if [ -n "${2}" ]; then
+#	f_scripts_clfs "${2}" "${3}"
+#fi
 
 if [ -f ${CLFS_OUT}/${_archive} ] && [ $(cat ${LOG_DIR}/${ID}/${ID}_flag) -eq 0 ]; then
 
@@ -60,10 +60,12 @@ do
 		continue
 	fi
 	[ -f "${_log}" ] && rm -vf ${_log}
-	local logpipe=`mktemp -u "${LOG_DIR}/${ID}/logpipe.XXXXXXXX"`
-	mkfifo "${logpipe}"
-	tee "${_log}" < "${logpipe}" &
-	local teepid=${!}
+#	exec 6>&1 7>&2 8<&0
+#	exec > ${_log}
+#	local logpipe=`mktemp -u "${LOG_DIR}/${ID}/logpipe.XXXXXXXX"`
+#	mkfifo "${logpipe}"
+#	tee "${_log}" < "${logpipe}" &
+#	local teepid=${!}
 
 	# Назначаем переменные пакета
 	local _pack_var=`f_pack_var "lfs.${ID}.${_NAME}"`
@@ -73,9 +75,11 @@ do
 	[ ${ERR_FLAG} -ne 0 ] && break
 	[ -d ${BUILD_DIR} ] && rm -Rf ${BUILD_DIR}/*
 
-	wait ${teepid}
-	rm "${logpipe}"
+#	wait ${teepid}
+#	rm "${logpipe}"
 done
+
+echo ${ERR_FLAG} > ${LOG_DIR}/${ID}/${ID}_flag
 
 if [ ${ERR_FLAG} -eq 0 ]; then
 	color-echo "OK: ${1}" ${GREEN}
@@ -85,18 +89,21 @@ else
 fi
 
 color-echo "Создание файла: \"${ID}-files\"" ${GREEN}
-find /{tools,cross-tools} | sed -e '1d' > ${LOG_DIR}/${ID}/${ID}-files
-
-color-echo "Создание переменной: \"${ID}-c-tools\"" ${GREEN}
+find /{tools/,cross-tools/} \
+  | sed -e '/^\/tools\/$/d' \
+        -e '/^\/cross-tools\/$/d' \
+  > /tmp/${ID}-files
 if [ -n "${2}" ]; then
-	local _files=`diff -n "${LOG_DIR}/${2:0:2}/${2:0:2}-files" \
-			      "${LOG_DIR}/${ID}/${ID}-files"`
+	diff -n ${LOG_DIR}/${2:0:2}/${2:0:2}-files \
+		/tmp/${ID}-files > ${LOG_DIR}/${ID}/${ID}-files
+	rm -f /tmp/${ID}-files
 else
-	local _files=`find /{tools,cross-tools} | sed -e '1d'`
+	mv /tmp/${ID}-files ${LOG_DIR}/${ID}/${ID}-files
 fi
+
 color-echo "Создание архива: \"${_archive}\"" ${GREEN}
 [ -f ${CLFS_OUT}/${_archive} ] && rm -f ${CLFS_OUT}/${_archive}
-tar -cjf ${CLFS_OUT}/${_archive} ${_files}
+tar -cjf ${CLFS_OUT}/${_archive} -T ${LOG_DIR}/${ID}/${ID}-files
 
 color-echo "Проверка архива: \"${_archive}\"" ${GREEN}
 bzip2 -t ${CLFS_OUT}/${_archive}

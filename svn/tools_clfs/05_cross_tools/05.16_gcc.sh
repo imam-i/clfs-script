@@ -1,8 +1,8 @@
 #######################################
 
-pushd ${BUILD_DIR}
+#pushd ${BUILD_DIR}
 #unarch 'mpfr' 'gmp' 'mpc' || return ${?}
-f_unarch || return ${?}
+#f_unarch || return ${?}
 cd ./${PACK}
 
 patch -Np1 -i ${CLFS_SRC}/${PACK}-branch_update-2.patch

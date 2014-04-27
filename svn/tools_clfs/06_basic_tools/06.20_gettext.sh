@@ -1,7 +1,7 @@
 #######################################
 
-pushd ${BUILD_DIR}
-f_unarch || return ${?}
+#pushd ${BUILD_DIR}
+#f_unarch || return ${?}
 cd ./${PACK}/gettext-tools
 
 echo "gl_cv_func_wcwidth_works=yes" > config.cache

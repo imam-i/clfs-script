@@ -1,7 +1,7 @@
 #######################################
 
-pushd ${BUILD_DIR}
-f_unarch || return ${?}
+#pushd ${BUILD_DIR}
+#f_unarch || return ${?}
 cd ./${PACK}
 
 sed -e 's@^\(all:.*\) test@\1@g' \

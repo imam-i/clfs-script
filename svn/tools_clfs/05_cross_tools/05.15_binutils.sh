@@ -1,10 +1,8 @@
 #######################################
 
-pushd ${BUILD_DIR}
-f_unarch || return ${?}
+#pushd ${BUILD_DIR}
+#f_unarch || return ${?}
 cd ./${PACK}
-
-#patch -Np1 -i ${CLFS_SRC}/${PACK}-musl-1.patch
 
 mkdir -v ../binutils-build && cd ../binutils-build
 
