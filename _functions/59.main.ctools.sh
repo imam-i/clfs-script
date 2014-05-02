@@ -22,7 +22,8 @@ esac
 
 color-echo "f_tools_clfs" ${YELLOW}
 
-date > "${CLFS_LOG}/tools_clfs.log"
+#local CLFS_MF_LOG="${CLFS_LOG}/tools_clfs.log"
+#date > "${CLFS_MF_LOG}"
 
 # 4.2. Creating the ${CLFS}/tools Directory
 rm -rf ${CLFS_TOOLS} /tools
@@ -135,7 +136,7 @@ chown -R clfs /home/clfs "${CLFS_LOG}" "${CLFS_OUT}" "${CLFS_PKG}" "${BUILD_DIR}
 
 su - clfs
 
-date >> "${CLFS_LOG}/tools_clfs.log"
+#date >> "${CLFS_MF_LOG}"
 }
 
 ################################################################################

@@ -2,10 +2,11 @@
 
 #pushd ${BUILD_DIR}
 #f_unarch || return ${?}
-cd ./${PACK}
+#cd ./${PACK}
 
-mkdir -v ../binutils-build && cd ../binutils-build
+#mkdir -v ../binutils-build && cd ../binutils-build
 
+%CONFIG%
 case "${CLFS_ARCH}" in
 	'x86_64')
 		AR=ar AS=as \
@@ -18,7 +19,7 @@ case "${CLFS_ARCH}" in
 			--disable-nls \
 			--disable-static \
 			--enable-64-bit-bfd \
-			--disable-multilib || return ${?}
+			--disable-multilib
 	;;
 	*)
 		AR=ar AS=as \
@@ -30,14 +31,16 @@ case "${CLFS_ARCH}" in
 			--with-lib-path=/tools/lib \
 			--disable-nls \
 			--disable-static \
-			--disable-multilib || return ${?}
+			--disable-multilib
 	;;
 esac
 
-make configure-host || return ${?}
-make || return ${?}
-make install || return ${?}
-cp -v ../${PACK}/include/libiberty.h /tools/include || return ${?}
-popd
+%BUILD%
+make configure-host
+make
+
+%INSTALL%
+make install
+cp -v ../${PACK}/include/libiberty.h /tools/include
 
 #######################################

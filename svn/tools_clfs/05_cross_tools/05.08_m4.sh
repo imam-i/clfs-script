@@ -2,11 +2,16 @@
 
 #pushd ${BUILD_DIR}
 #f_unarch || return ${?}
-cd ./${PACK}
+#cd ./${PACK}
 
-./configure --prefix=/cross-tools || return ${?}
-make || return ${?}
-make install || return ${?}
-popd
+%CONFIG%
+../${PACK}/configure \
+	--prefix=/cross-tools
+
+%BUILD%
+make
+
+%INSTALL%
+make install
 
 #######################################

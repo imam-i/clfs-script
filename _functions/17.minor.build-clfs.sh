@@ -3,25 +3,47 @@
 # Функция "build_clfs"
 # Version: 0.1
 
-f_build_clfs ()
+function f_build_clfs ()
 {
 local ${_pack_var}
 local name="${_NAME}"
 
 while [ true ]
 do
-	echo "${ID}    ${name}    ${_file}"
+	exec 6>&1 7>&2 8<&0
 	if [ -f ${_script} ]; then
-		exec 6>&1 7>&2 8<&0
-		exec >> ${_log}
+		
+		pushd ${BUILD_DIR}
+		if [ ${ERR_FLAG} -eq 0 ]; then
+			exec >> ${CLFS_PAK_LOG_DIR}/00_extract.log
+			exec 2>> ${CLFS_PAK_LOG_DIR}/00_extract.error.log
+			f_unarch || ERR_FLAG=${?}
+		fi
 
-		f_unarch || ERR_FLAG=${?}
-		. ${_script} | f_log NC || ERR_FLAG=${?}
+	#	. ${_script} || ERR_FLAG=${?}
+		install -d ./${name}-build; cd ./${name}-build
+		if [ ${ERR_FLAG} -eq 0 ]; then
+			exec >> ${CLFS_PAK_LOG_DIR}/01_config.log
+			exec 2>> ${CLFS_PAK_LOG_DIR}/01_config.error.log
+			f_log WHITE "CONFIG: ${_file}"
+			eval "$(minor_pars_script_clfs ${_script} 'CONFIG')" | f_log NC || ERR_FLAG=${?}
+		fi
 
-		exec 1>&6 2>&7 0<&8
-		exec 6>&- 7>&- 8<&-
+		if [ ${ERR_FLAG} -eq 0 ]; then
+			exec >> ${CLFS_PAK_LOG_DIR}/02_build.log
+			exec 2>> ${CLFS_PAK_LOG_DIR}/02_build.error.log
+			f_log WHITE "BUILD: ${_file}"
+			eval "$(minor_pars_script_clfs ${_script} 'BUILD')" | f_log NC || ERR_FLAG=${?}
+		fi
+
+		if [ ${ERR_FLAG} -eq 0 ]; then
+			exec >> ${CLFS_PAK_LOG_DIR}/03_install.log
+			exec 2>> ${CLFS_PAK_LOG_DIR}/03_install.error.log
+			f_log WHITE "INSTALL: ${_file}"
+			eval "$(minor_pars_script_clfs ${_script} 'INSTALL')" | f_log NC || ERR_FLAG=${?}
+		fi
+		popd
 	else
-		date
 		local _url=`echo ${url} | sed -e "s/_version/${version}/g"`
 
 		# Проверка на наличие патчей
@@ -43,6 +65,8 @@ do
 		popd
 		unset name version _url md5
 	fi
+	exec 1>&6 2>&7 0<&8
+	exec 6>&- 7>&- 8<&-
 	local _flag=''
 	while [ ${ERR_FLAG} -ne 0 ] && [ "${_flag}" = '' ]
 	do
@@ -55,21 +79,19 @@ do
 		case ${_flag} in
 			'r')
 				ERR_FLAG=0
-				popd || true
 				[ -d ${BUILD_DIR} ] && rm -Rf ${BUILD_DIR}/*
 				local _flag=''
 				continue 2
 			;;
 			'c')
-				popd || true
 				ERR_FLAG=0
 				local _flag=''
 			;;
 			'x')	return ${ERR_FLAG} ;;
 		esac
 	done
-	date && break
-done &>"${logpipe}"
+	break
+done
 }
 
 ################################################################################

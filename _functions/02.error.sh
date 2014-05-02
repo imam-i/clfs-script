@@ -13,10 +13,8 @@ read
 
 case "${CLFS_FLAG}" in
 	clfs | tools-clfs) f_umount_clfs ;;
-	_tools-clfs)
-		rm -f "${logpipe}"
-		echo ${_ERR} > ${LOG_DIR}/${ID}/${ID}_flag
-	;;
+	_tools-clfs)       echo ${_ERR} > ${LOG_DIR}/${ID}/${ID}_flag ;;
+	f_log)             exec 1>&6 2>&7 0<&8 6>&- 7>&- 8<&- ;;
 esac
 
 exit ${_ERR}

@@ -28,8 +28,8 @@ sed -e "/\/_su\/_ctools.sh/d" \
     -i ~/.bashrc
 
 # Каталог для хронения лог-файлов tools
-LOG_DIR="${CLFS_LOG}/tools_clfs"
-install -d ${LOG_DIR}
+CLFS_MAIN_LOG_DIR="${CLFS_LOG}/tools_clfs"
+install -d ${CLFS_MAIN_LOG_DIR}
 
 f_scripts_clfs '05.Constructing Cross-Compile Tools'
 
@@ -50,7 +50,7 @@ echo export RANLIB=\""${RANLIB}\"" >> ~/.bashrc
 echo export LD=\""${LD}\"" >> ~/.bashrc
 echo export STRIP=\""${STRIP}\"" >> ~/.bashrc
 
-f_scripts_clfs '06.Constructing a Temporary System'
+f_scripts_clfs '06.Constructing a Temporary System' 05
 
 set +e
 }

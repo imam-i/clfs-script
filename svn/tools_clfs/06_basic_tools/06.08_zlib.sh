@@ -2,12 +2,17 @@
 
 #pushd ${BUILD_DIR}
 #f_unarch || return ${?}
-cd ./${PACK}
+#cd ./${PACK}
 
+%CONFIG%
 CC="${CC} ${BUILD64}" \
-  ./configure --prefix=/tools || return ${?}
-make || return ${?}
-make install || return ${?}
-popd
+    ../${PACK}/configure \
+	--prefix=/tools
+
+%BUILD%
+make
+
+%INSTALL%
+make install
 
 #######################################

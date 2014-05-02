@@ -2,13 +2,19 @@
 
 #pushd ${BUILD_DIR}
 #f_unarch || return ${?}
-cd ./${PACK}
+#cd ./${PACK}
 
+%CONFIG%
 sed -e 's@^\(all:.*\) test@\1@g' \
-    -i Makefile
+    -i ../${PACK}/Makefile
 
-make CC="${CC} ${BUILD64}" AR="${AR}" RANLIB="${RANLIB}" || return ${?}
-make PREFIX=/tools install || return ${?}
-popd
+%BUILD%
+make CC="${CC} ${BUILD64}" \
+     AR="${AR}" \
+     RANLIB="${RANLIB}" \
+     -C ../${PACK}
+
+%INSTALL%
+make -C ../${PACK} PREFIX=/tools install
 
 #######################################

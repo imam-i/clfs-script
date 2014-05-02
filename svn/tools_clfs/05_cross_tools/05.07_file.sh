@@ -2,11 +2,17 @@
 
 #pushd ${BUILD_DIR}
 #f_unarch || return ${?}
-cd ./${PACK}
+#cd ./${PACK}
 
-./configure --prefix=/cross-tools --disable-static || return ${?}
-make || return ${?}
-make install || return ${?}
-popd
+%CONFIG%
+../${PACK}/configure \
+	--prefix=/cross-tools \
+	--disable-static
+
+%BUILD%
+make
+
+%INSTALL%
+make install
 
 #######################################

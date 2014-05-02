@@ -2,17 +2,24 @@
 
 #pushd ${BUILD_DIR}
 #f_unarch || return ${?}
-cd ./${PACK}
+#cd ./${PACK}
 
-patch -Np1 -i ${CLFS_SRC}/${PACK}-fixes-2.patch
+%CONFIG%
+pushd ../${PACK}
+    patch -Np1 -i ${CLFS_SRC}/${PACK}-fixes-2.patch
+popd
 
 CC="${CC} ${BUILD64}" \
-  ./configure --prefix=/tools \
-              --build=${CLFS_HOST} \
-              --host=${CLFS_TARGET} \
-              --enable-shared || return ${?}
-make || return ${?}
-make install || return ${?}
-popd
+    ../${PACK}/configure \
+	--prefix=/tools \
+	--build=${CLFS_HOST} \
+	--host=${CLFS_TARGET} \
+	--enable-shared
+
+%BUILD%
+make
+
+%INSTALL%
+make install
 
 #######################################

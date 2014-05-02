@@ -2,17 +2,23 @@
 
 #pushd ${BUILD_DIR}
 #f_unarch || return ${?}
-cd ./${PACK}
+#cd ./${PACK}
 
+%ONFIG
 LDFLAGS="-Wl,-rpath,/cross-tools/lib" \
-  ./configure --prefix=/cross-tools \
-              --disable-static \
-              --with-gmp-prefix=/cross-tools \
-              --with-isl-prefix=/cross-tools || return ${?}
+  ../${PACK}/configure \
+	--prefix=/cross-tools \
+	--disable-static \
+	--with-gmp-prefix=/cross-tools \
+	--with-isl-prefix=/cross-tools
+
 sed -e '/cmake/d' \
     -i Makefile
-make || return ${?}
-make install || return ${?}
-popd
+
+%BUILD%
+make
+
+%INSTALL%
+make install
 
 #######################################

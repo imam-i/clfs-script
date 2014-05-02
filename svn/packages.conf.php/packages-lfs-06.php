@@ -256,6 +256,9 @@ $arr = array (
 		'md5patch1' => '54c99871cd0ca20f29bdc9462e27f0df',
 		'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/coreutils-_version-i18n-4.patch',
 
+		'md5patch2' => '6ed8f515391580e51f170a32af6fc7b9',
+		'urlpatch2' => 'http://patches.cross-lfs.org/dev/coreutils-_version-noman-1.patch',
+
 		'depends_lfs' => 'lfs.06.glibc:lfs.06.gmp'
 	),
 
@@ -651,10 +654,10 @@ $arr = array (
 		'md5' => '607e135c559be642f210094ad023dc65',
 		'url' => 'ftp://ftp.vim.org/pub/vim/unix/vim-_version.tar.bz2',
 
-		'depends_lfs' => 'lfs.06.ncurses'
+		'depends_lfs' => 'lfs.06.ncurses',
 
-		//'md5patch1' => '34c6fcd4167009d5fbffc0c2c59d388b',
-		//'urlpatch1' => 'http://www.linuxfromscratch.org/patches/blfs/svn/vim-_version-fixes-524.patch'
+		'md5patch1' => 'aa2e7384582ddd94ce7e5d91bebce78f',
+		'urlpatch1' => 'http://patches.cross-lfs.org/dev/vim-_version-branch_update-2.patch'
 
 		//'nconf' => 'vim',
 		//'verconf' => '7.2',

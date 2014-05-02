@@ -2,14 +2,19 @@
 
 #pushd ${BUILD_DIR}
 #f_unarch || return ${?}
-cd ./${PACK}
+#cd ./${PACK}
 
+%CONFIG%
 LDFLAGS="-Wl,-rpath,/cross-tools/lib" \
-  ./configure --prefix=/cross-tools \
-              --disable-static \
-              --with-gmp=/cross-tools || return ${?}
-make || return ${?}
-make install || return ${?}
-popd
+  ../${PACK}/configure \
+	--prefix=/cross-tools \
+	--disable-static \
+	--with-gmp=/cross-tools
+
+%BUILD%
+make
+
+%INSTALL%
+make install
 
 #######################################

@@ -4,11 +4,15 @@
 
 #pushd ${BUILD_DIR}
 #f_unarch || return ${?}
-cd ./${PACK}
+#cd ./${PACK}
 
-make mrproper || return ${?}
-make ARCH=${CLFS_ARCH} headers_check || return ${?}
-make ARCH=${CLFS_ARCH} INSTALL_HDR_PATH=/tools headers_install || return ${?}
-popd
+%CONFIG%
+make -C ../${PACK} mrproper
+
+%BUILD%
+make -C ../${PACK} ARCH=${CLFS_ARCH} headers_check
+
+%INSTALL%
+make -C ../${PACK} ARCH=${CLFS_ARCH} INSTALL_HDR_PATH=/tools headers_install
 
 #######################################
