@@ -30,12 +30,12 @@ rm -rf ${CLFS_TOOLS} /tools
 install -dv ${CLFS_TOOLS}
 ln -sv ${CLFS_TOOLS} /
 
-# 4.3. Creating the ${CLFS}/cross-tools Directory
-rm -rf ${CLFS_CROSS_TOOLS} /cross-tools
-install -dv ${CLFS_CROSS_TOOLS}
-ln -sv ${CLFS_CROSS_TOOLS} /
+## 4.3. Creating the ${CLFS}/cross-tools Directory
+#rm -rf ${CLFS_CROSS_TOOLS} /cross-tools
+#install -dv ${CLFS_CROSS_TOOLS}
+#ln -sv ${CLFS_CROSS_TOOLS} /
 
-# 4.4. Adding the CLFS User
+# 4.3. Adding the CLFS User
 if [ -z "$(fgrep clfs /etc/group)" ]; then
 	groupadd clfs
 fi
@@ -48,7 +48,7 @@ fi
 install -dv /home/clfs
 yes 'clfs' | passwd clfs
 chown -v clfs ${CLFS_TOOLS}
-chown -v clfs ${CLFS_CROSS_TOOLS}
+#chown -v clfs ${CLFS_CROSS_TOOLS}
 chown -v clfs ${CLFS_SRC}
 
 #########################################
@@ -60,7 +60,7 @@ rm -Rf ${BUILD_DIR}
 install -dv ${BUILD_DIR}
 #########################################
 
-# 4.5. Setting Up the Environment
+# 4.4. Setting Up the Environment
 cat > /home/clfs/.bash_profile << "EOF"
 exec env -i HOME=${HOME} TERM=${TERM} PS1='\u:\w\$ ' /bin/bash
 EOF
@@ -70,7 +70,7 @@ set +h
 umask 022
 CLFS=${CLFS}
 LC_ALL=POSIX
-PATH=/cross-tools/bin:/bin:/usr/bin
+PATH=/tools/bin:/bin:/usr/bin
 export CLFS LC_ALL PATH
 
 # назначаем переменные CLFS_PWD CLFS_CROSS_TOOLS CLFS_TOOLS CLFS_ARCH
@@ -79,18 +79,18 @@ export CLFS_CROSS_TOOLS=${CLFS_CROSS_TOOLS}
 export CLFS_TOOLS=${CLFS_TOOLS}
 export CLFS_ARCH=${CLFS_ARCH}
 
-# 5.2. Build CFLAGS
-unset CFLAGS
-unset CXXFLAGS
+## 5.2. Build CFLAGS
+#unset CFLAGS
+#unset CXXFLAGS
 
-# 5.3. Build Flags
-case "\${CLFS_ARCH}" in
-	'x86_64') export BUILD64="-m64" ;;
-esac
+## 5.3. Build Flags
+#case "\${CLFS_ARCH}" in
+#	'x86_64') export BUILD64="-m64" ;;
+#esac
 
 # 5.4. Build Variables
 export CLFS_HOST=`echo ${MACHTYPE} | sed -e 's/-[^-]*/-cross/'`
-export CLFS_TARGET="${CLFS_ARCH}-unknown-linux-gnu"
+export CLFS_TARGET="\${CLFS_ARCH}-unknown-linux-gnu"
 EOF
 
 install -d ${CLFS}/etc
@@ -118,10 +118,10 @@ usb:x:14:
 cdrom:x:15:
 EOF
 
-install -d ${CLFS}/var/{run,log}
-touch ${CLFS}/var/run/utmp ${CLFS}/var/log/{btmp,lastlog,wtmp}
-chmod -v 664 ${CLFS}/var/run/utmp ${CLFS}/var/log/lastlog
-chmod -v 600 ${CLFS}/var/log/btmp
+#install -d ${CLFS}/var/{run,log}
+#touch ${CLFS}/var/run/utmp ${CLFS}/var/log/{btmp,lastlog,wtmp}
+#chmod -v 664 ${CLFS}/var/run/utmp ${CLFS}/var/log/lastlog
+#chmod -v 600 ${CLFS}/var/log/btmp
 ###########################################################
 
 # ---------------------------------
@@ -132,7 +132,14 @@ exit \${?}
 EOF
 # ---------------------------------
 color-echo "Смена прав на каталоги: /home/clfs ${CLFS} ${CLFS_LOG} ${CLFS_OUT} ${CLFS_PKG} ${BUILD_DIR} ${CLFS_PWD}/${PREFIX}/tools_clfs" ${CYAN}
-chown -R clfs /home/clfs "${CLFS_LOG}" "${CLFS_OUT}" "${CLFS_PKG}" "${BUILD_DIR}" "${CLFS_PWD}/${PREFIX}/tools_clfs"
+chown -R \
+	clfs \
+	/home/clfs \
+	"${CLFS_LOG}" \
+	"${CLFS_OUT}" \
+	"${CLFS_PKG}" \
+	"${BUILD_DIR}" \
+	"${CLFS_PWD}/${PREFIX}/tools_clfs"
 
 su - clfs
 

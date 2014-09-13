@@ -13,8 +13,8 @@ read
 
 case "${CLFS_FLAG}" in
 	clfs | tools-clfs) f_umount_clfs ;;
-	_tools-clfs)       echo ${_ERR} > ${LOG_DIR}/${ID}/${ID}_flag ;;
-	f_log)             exec 1>&6 2>&7 0<&8 6>&- 7>&- 8<&- ;;
+	_tools-clfs)       echo ${_ERR} > ${CLFS_MINOR_LOG_DIR}/${ID}_flag ;;
+	f_log)             minor_exec_io_clfs OFF ;;
 esac
 
 exit ${_ERR}

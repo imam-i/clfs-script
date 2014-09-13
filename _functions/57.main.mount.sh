@@ -10,7 +10,7 @@ f_mount_clfs ()
 `mount | grep ${CLFS}`" ${RED}
 		return 1
 	else
-		rm -Rf ${CLFS} /tools
+		rm -Rf ${CLFS} /tools /cross-tools
 	fi
 	local _disk
 	for _disk in `cat ${CLFS_DISK}`
@@ -19,9 +19,8 @@ f_mount_clfs ()
 		local _mount_point=$(echo ${_disk} | cut -d: -f2)
 		local _type=$(echo ${_disk} | cut -d: -f3)
 
-		case ${_type} in
-		    'swap' )
-			;;
+		case "${_type}" in
+		    'swap' ) ;;
 		    ext[2-4] | 'ext4dev' | 'vfat' )
 			local _mke2fs="mkfs.${_type}"
 			local _mount="mount -v -t ${_type}"
@@ -33,23 +32,27 @@ f_mount_clfs ()
 
 		case "${_mount_point}" in
 		    'swap' )
-			color-echo "Форматированние: ${_section} в ${_type}" ${CYAN}
-			[ ${MOUNT_CLFS_FLAG} -ne 0 ] && mkswap ${_section}
-			color-echo "Монтирование: ${_section} в ${_mount_point}" ${CYAN}
-			[ ${MOUNT_CLFS_FLAG} -ne 0 ] && swapon -v ${_section}
+			if [ "${MOUNT_CLFS_FLAG}" -ne 0 ]; then
+				color-echo "Форматированние: ${_section} в ${_type}" ${CYAN}
+				mkswap ${_section}
+				color-echo "Монтирование: ${_section} в ${_mount_point}" ${CYAN}
+				swapon -v ${_section}
+			fi
 			;;
 		    * )
 			install -dv "${CLFS}${_mount_point}"
-			color-echo "Форматированние: ${_section} в ${_type}" ${CYAN}
-			[ ${MOUNT_CLFS_FLAG} -ne 0 ] && ${_mke2fs} ${_section}
-			color-echo "Монтирование: ${_section} в ${_mount_point}" ${CYAN}
-			[ ${MOUNT_CLFS_FLAG} -ne 0 ] && ${_mount} ${_section} "${CLFS}${_mount_point}"
+			if [ "${MOUNT_CLFS_FLAG}" -ne 0 ]; then
+				color-echo "Форматированние: ${_section} в ${_type}" ${CYAN}
+				${_mke2fs} ${_section}
+				color-echo "Монтирование: ${_section} в ${_mount_point}" ${CYAN}
+				${_mount} ${_section} "${CLFS}${_mount_point}"
+			fi
 			;;
 		esac
 	done
 
 install -d ${CLFS_LOG} ${CLFS_SRC} ${CLFS_PKG}
-install -d ${CLFS}/var/{lib/pacman,/cache/pacman/pkg,log}
+#install -d ${CLFS}/var/{lib/pacman,/cache/pacman/pkg,log}
 chmod -v a+wt ${CLFS_SRC}
 }
 

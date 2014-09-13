@@ -6,22 +6,27 @@
 f_untar ()
 {
 local message="${1}"; shift
-color-echo "f_untar: ${message}" ${MAGENTA}
-echo "f_untar: ${message}" >> "${LOG_FILE}"
-#date >> "${LOG_FILE}"
-echo '+++++++++++++++++env+++++++++++++++++++' >> "${LOG_FILE}"
-env >> "${LOG_FILE}"
-echo '+++++++++++++++++++++++++++++++++++++++' >> "${LOG_FILE}"
-echo '++++++++++++++++local++++++++++++++++++' >> "${LOG_FILE}"
-local >> "${LOG_FILE}"
-echo '+++++++++++++++++++++++++++++++++++++++' >> "${LOG_FILE}"
+#exec >> ${LOG_FILE}
 
-color-echo "Проверка архива: \"${_archive}\"" ${CYAN}
-#bzip2 -t "${CLFS_OUT}/${_archive}" || ERR_FLAG=${?}
+f_log INFO "f_untar: ${message}"
+#color-echo "f_untar: ${message}" ${MAGENTA}
+#echo "f_untar: ${message}"
+#date >> "${LOG_FILE}"
+echo '+++++++++++++++++env+++++++++++++++++++'
+env
+echo '+++++++++++++++++++++++++++++++++++++++'
+echo '++++++++++++++++local++++++++++++++++++'
+local
+echo '+++++++++++++++++++++++++++++++++++++++'
+
+f_log INFO "Проверка архива: \"${_archive}\""
+#color-echo "Проверка архива: \"${_archive}\"" ${CYAN}
+bzip2 -t "${CLFS_OUT}/${_archive}" 2>&1 | f_log ALL || ERR_FLAG=${?}
 
 if [ "${ERR_FLAG}" -eq 0 ]; then
-	color-echo "Распаковка архива: \"${_archive}\"" ${CYAN}
-	tar -xf "${CLFS_OUT}/${_archive}" -C / || ERR_FLAG=${?}
+	f_log INFO "Распаковка архива: \"${_archive}\""
+#	color-echo "Распаковка архива: \"${_archive}\"" ${CYAN}
+	tar -xvf "${CLFS_OUT}/${_archive}" -C / 2>&1 | f_log ALL || ERR_FLAG=${?}
 fi
 
 # Создание файла: "XX-files"

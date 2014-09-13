@@ -26,7 +26,8 @@ do
 
 	case ${_mount_point} in
 	    'swap' )
-		[ "${MOUNT_CLFS_FLAG}" -ne 0 ] && ( swapoff -v ${_section} >> ${_log} )
+		[ "${MOUNT_CLFS_FLAG}" -ne 0 ] \
+			&& ( swapoff -v ${_section} >> ${_log} )
 	    ;;
 	    * )
 		if [ -n "$( mount | grep ${_section} )" ]; then

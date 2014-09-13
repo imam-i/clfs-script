@@ -38,4 +38,15 @@ local SYSTEM_CLFS_FLAG=${SYSTEM_CLFS_FLAG:-0}		# 0 = 00; 1 = -1; 2 = 10; 3 = 11.
 local BLFS_FLAG=${BLFS_FLAG:-0}
 local ERR_FLAG=${ERR_FLAG:-0}
 
+# The different log levels:
+local CT_LOG_LEVEL_ERROR=0
+local CT_LOG_LEVEL_WARN=1
+local CT_LOG_LEVEL_INFO=2
+local CT_LOG_LEVEL_EXTRA=3
+local CT_LOG_LEVEL_CFG=4
+local CT_LOG_LEVEL_FILE=5
+local CT_LOG_LEVEL_STATE=6
+local CT_LOG_LEVEL_ALL=7
+local CT_LOG_LEVEL_DEBUG=8
+
 #######################################

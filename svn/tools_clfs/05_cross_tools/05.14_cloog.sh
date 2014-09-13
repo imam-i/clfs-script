@@ -4,7 +4,7 @@
 #f_unarch || return ${?}
 #cd ./${PACK}
 
-%ONFIG
+%CONFIG%
 LDFLAGS="-Wl,-rpath,/cross-tools/lib" \
   ../${PACK}/configure \
 	--prefix=/cross-tools \

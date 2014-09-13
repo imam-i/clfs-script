@@ -14,13 +14,13 @@ if [ "${status}" -eq 0 ]; then
 fi
 
 if [ -n "${url}" ]; then
-	local url=$(echo ${url} | sed -e "s@_version@${version}@g")
+	local url=`echo ${url} | sed -e "s@_version@${version}@g"`
 	f_download
 fi
 unset url md5
 
 if [ -n "${urlconf}" ]; then
-	local urlconf=$(echo ${urlconf} | sed -e "s@_version@${verconf}@g")
+	local urlconf=`echo ${urlconf} | sed -e "s@_version@${verconf}@g"`
 	f_download "${urlconf}" "${md5conf}"
 fi
 
@@ -54,8 +54,8 @@ if [ "${PACKAGES_CLFS_FLAG}" -eq 0 ]; then
         return 0
 fi
 
-local log_file="${CLFS_LOG}/packages.log"
-:> ${log_file}
+local _log="${CLFS_LOG}/packages.log"
+:> ${_log}
 
 for package_name in `f_pack_var ${BOOK}.${CHAPTER}.${GROUP_PACKAGE_ALL}`
 do

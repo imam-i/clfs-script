@@ -31,26 +31,26 @@ sed -e "/\/_su\/_ctools.sh/d" \
 CLFS_MAIN_LOG_DIR="${CLFS_LOG}/tools_clfs"
 install -d ${CLFS_MAIN_LOG_DIR}
 
-f_scripts_clfs '05.Constructing Cross-Compile Tools'
+f_scripts_clfs '05.Constructing a Temporary System'
 
-# 6.2. Build Variables
-export CC="${CLFS_TARGET}-gcc"
-export CXX="${CLFS_TARGET}-g++"
-export AR="${CLFS_TARGET}-ar"
-export AS="${CLFS_TARGET}-as"
-export RANLIB="${CLFS_TARGET}-ranlib"
-export LD="${CLFS_TARGET}-ld"
-export STRIP="${CLFS_TARGET}-strip"
+## 6.2. Build Variables
+#export CC="${CLFS_TARGET}-gcc"
+#export CXX="${CLFS_TARGET}-g++"
+#export AR="${CLFS_TARGET}-ar"
+#export AS="${CLFS_TARGET}-as"
+#export RANLIB="${CLFS_TARGET}-ranlib"
+#export LD="${CLFS_TARGET}-ld"
+#export STRIP="${CLFS_TARGET}-strip"
 
-echo export CC=\""${CC}\"" >> ~/.bashrc
-echo export CXX=\""${CXX}\"" >> ~/.bashrc
-echo export AR=\""${AR}\"" >> ~/.bashrc
-echo export AS=\""${AS}\"" >> ~/.bashrc
-echo export RANLIB=\""${RANLIB}\"" >> ~/.bashrc
-echo export LD=\""${LD}\"" >> ~/.bashrc
-echo export STRIP=\""${STRIP}\"" >> ~/.bashrc
+#echo export CC=\""${CC}\"" >> ~/.bashrc
+#echo export CXX=\""${CXX}\"" >> ~/.bashrc
+#echo export AR=\""${AR}\"" >> ~/.bashrc
+#echo export AS=\""${AS}\"" >> ~/.bashrc
+#echo export RANLIB=\""${RANLIB}\"" >> ~/.bashrc
+#echo export LD=\""${LD}\"" >> ~/.bashrc
+#echo export STRIP=\""${STRIP}\"" >> ~/.bashrc
 
-f_scripts_clfs '06.Constructing a Temporary System' 05
+#f_scripts_clfs '06.Constructing a Temporary System' 05
 
 set +e
 }

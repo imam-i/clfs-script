@@ -16,8 +16,8 @@ url=`echo ${url} | sed -e "s@_version@${version}@g"`
 
 local _archname=`basename ${url}`
 #local _log="${CLFS_MINOR_LOG_DIR}/extract"
-f_log WHITE "EXTRACT ARCHIVE: ${_archname}"
-tar -xpvf ${CLFS_SRC}/${_archname} | f_log NC
+f_log INFO "EXTRACT ARCHIVE: ${_archname}"
+tar -xpvf ${CLFS_SRC}/${_archname} 2>&1 | f_log ALL
 PACK=`echo ${_archname} | sed -e 's@.tar.bz2@@g' -e 's@.tar.xz@@g' -e 's@.tar.gz@@g'`
 
 if [ "${#}" -ne 0 ]; then
@@ -33,8 +33,8 @@ if [ "${#}" -ne 0 ]; then
 
 		url=`echo ${url} | sed -e "s@_version@${version}@g"`
 		local _archname=`basename ${url}`
-		f_log WHITE "EXTRACT ARCHIVE: ${_archname}"
-		tar -xpvf ${CLFS_SRC}/${_archname} | f_log NC
+		f_log INFO "EXTRACT ARCHIVE: ${_archname}"
+		tar -xpvf ${CLFS_SRC}/${_archname} 2>&1 | f_log ALL
 
 		# Очистка переменных
 		f_clear_per "${_pack_var_unarch} _pack_var_unarch"

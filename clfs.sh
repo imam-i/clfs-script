@@ -65,7 +65,7 @@ do
 		;;
 		--clean)
 			if [ -z "$(fgrep "${CLFS}" /proc/mounts)" ]; then
-				rm -Rfv ${BUILD_DIR} ${CLFS} ${CLFS_OUT}
+				rm -Rfv ${BUILD_DIR} ${CLFS} ${CLFS_OUT} /{cross-tools,tools}
 			else
 				color-echo 'Остались смонтироваными ФС!' ${RED}
 				exit 1

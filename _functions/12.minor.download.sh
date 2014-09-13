@@ -39,23 +39,23 @@ f_download ()
 
 	[ "${_pack_url}" = 'NONE' ] && return 0
 
-	echo ${_pack_name} >> ${log_file}
+	echo ${_pack_name} >> ${_log}
 	if [ "${_pack_url:0:3}" = 'git' ]; then
-		date >> ${log_file}
+		date >> ${_log}
 		if [ -n "$(which git)" ]; then
 			f_gitrc ${_pack_url}
 		else
 			color-echo 'Отсутствует программа (git) для скачивания пакетов!' ${RED}
 			return 1
 		fi
-		date >> ${log_file}
+		date >> ${_log}
 		return ${?}
 	fi
 
 	if [ -f ${CLFS_SRC}/${_pack_name} ]; then
 		f_md5sum_clfs "${_pack_url}" "${2}"
 	else
-		date >> ${log_file}
+		date >> ${_log}
 
 		if [ -n "$(which curl)" ]; then
 			f_curlrc ${_pack_url}
@@ -67,7 +67,7 @@ f_download ()
 		fi
 
 		f_md5sum_clfs "${_pack_url}" "${2}"
-		date >> ${log_file}
+		date >> ${_log}
 	fi
 }
 

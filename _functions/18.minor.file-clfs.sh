@@ -5,7 +5,8 @@
 
 minor_file_clfs ()
 {
-color-echo "Создание файла: \"${ID}-files\"" ${GREEN}
+#color-echo "Создание файла: \"${ID}-files\"" ${GREEN}
+f_log INFO "Создание файла: \"${ID}-files\""
 find /{tools/,cross-tools/} \
   | sed -e '/^\/tools\/$/d' \
         -e a'/^\/cross-tools\/$/d' \

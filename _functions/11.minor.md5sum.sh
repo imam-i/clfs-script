@@ -14,7 +14,7 @@ f_md5sum_clfs ()
 				color-echo "Ожидался: ${2:-$md5}" ${RED}
 				return ${ERR_FLAG}
 			else
-				echo "Успешно!" >> ${log_file}
+				echo "Успешно!" >> ${_log}
 			fi
 		else
 			echo "md5sum ${_arch}"

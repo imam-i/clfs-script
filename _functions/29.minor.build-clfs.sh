@@ -10,40 +10,37 @@ local name="${_NAME}"
 
 while [ true ]
 do
-	exec 6>&1 7>&2 8<&0
 	if [ -f ${_script} ]; then
 		
-		pushd ${BUILD_DIR}
+		pushd ${BUILD_DIR} > /dev/null
+		f_log INFO '======================================================'
 		if [ ${ERR_FLAG} -eq 0 ]; then
-			exec >> ${CLFS_PAK_LOG_DIR}/00_extract.log
-			exec 2>> ${CLFS_PAK_LOG_DIR}/00_extract.error.log
 			f_unarch || ERR_FLAG=${?}
 		fi
 
-	#	. ${_script} || ERR_FLAG=${?}
 		install -d ./${name}-build; cd ./${name}-build
 		if [ ${ERR_FLAG} -eq 0 ]; then
-			exec >> ${CLFS_PAK_LOG_DIR}/01_config.log
-			exec 2>> ${CLFS_PAK_LOG_DIR}/01_config.error.log
-			f_log WHITE "CONFIG: ${_file}"
-			eval "$(minor_pars_script_clfs ${_script} 'CONFIG')" | f_log NC || ERR_FLAG=${?}
+			f_log INFO "CONFIG: ${_file}"
+			eval "$(minor_pars_script_clfs ${_script} 'CONFIG')" 2>&1 | \
+				f_log ALL || ERR_FLAG=${?}
 		fi
 
 		if [ ${ERR_FLAG} -eq 0 ]; then
-			exec >> ${CLFS_PAK_LOG_DIR}/02_build.log
-			exec 2>> ${CLFS_PAK_LOG_DIR}/02_build.error.log
-			f_log WHITE "BUILD: ${_file}"
-			eval "$(minor_pars_script_clfs ${_script} 'BUILD')" | f_log NC || ERR_FLAG=${?}
+			f_log INFO "BUILD: ${_file}"
+			eval "$(minor_pars_script_clfs ${_script} 'BUILD')" 2>&1 | \
+				f_log ALL || ERR_FLAG=${?}
 		fi
 
 		if [ ${ERR_FLAG} -eq 0 ]; then
-			exec >> ${CLFS_PAK_LOG_DIR}/03_install.log
-			exec 2>> ${CLFS_PAK_LOG_DIR}/03_install.error.log
-			f_log WHITE "INSTALL: ${_file}"
-			eval "$(minor_pars_script_clfs ${_script} 'INSTALL')" | f_log NC || ERR_FLAG=${?}
+			f_log INFO "INSTALL: ${_file}"
+			eval "$(minor_pars_script_clfs ${_script} 'INSTALL')" 2>&1 | \
+				f_log ALL || ERR_FLAG=${?}
 		fi
-		popd
+		f_log INFO '======================================================'
+		popd > /dev/null
 	else
+		minor_exec_io_clfs OFF
+
 		local _url=`echo ${url} | sed -e "s/_version/${version}/g"`
 
 		# Проверка на наличие патчей
@@ -64,17 +61,17 @@ do
 			f_pacman_clfs ${_file} || ERR_FLAG=${?}
 		popd
 		unset name version _url md5
+
+		minor_exec_io_clfs OK
 	fi
-	exec 1>&6 2>&7 0<&8
-	exec 6>&- 7>&- 8<&-
 	local _flag=''
 	while [ ${ERR_FLAG} -ne 0 ] && [ "${_flag}" = '' ]
 	do
-		date
-		color-echo "ERROR: ${_file}" ${RED}
-		color-echo "Повторить - r" ${YELLOW}
-		color-echo "Пропустить - c" ${YELLOW}
-		color-echo "Остановить - x" ${YELLOW}
+		f_log ERROR "ERROR: ${_file}"
+		f_log WARN "Повторить - r"
+		f_log WARN "Пропустить - c"
+		f_log WARN "Остановить - x"
+		printf "\r\t\r" >&6
 		read _flag
 		case ${_flag} in
 			'r')
@@ -87,7 +84,9 @@ do
 				ERR_FLAG=0
 				local _flag=''
 			;;
-			'x')	return ${ERR_FLAG} ;;
+			'x')
+				return ${ERR_FLAG}
+			;;
 		esac
 	done
 	break
