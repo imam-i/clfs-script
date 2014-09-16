@@ -3,58 +3,57 @@
 <?php
 #error_reporting(0);
 
-function f_chapter ($book, $chapter, $pack) {
-	if ( isset($pack[$book]) ) {
-		$packs_id = explode(';', $pack[$book]);
-		foreach ($packs_id as $pack_id) {
-			if ( $pack_id == $chapter ) {
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
 $arr_lfs = array();
 
-foreach (glob("$argv[1]/*.php") as $config) {
+foreach ( glob("$argv[1]/*.php") as $config ) {
 	require($config);
-	$arr_lfs = array_merge_recursive($arr_lfs, $arr);
+	$arr_lfs = array_merge_recursive( $arr_lfs, $arr );
 	unset($arr);
 }
 
 $package = explode( '.', $argv[2], 3 );
 
-switch ($package[2]) {
-	case 'all':
-		foreach ($arr_lfs as $key => $value) {
-			if ( f_chapter($package[0], $package[1], $arr_lfs[$key]) ) {
-				echo $key . "\n";
-			}
-		}
-		exit (0);
-	break;
-}
+// Находим все пакеты главы, книги
+if ( $package[2] == 'all' ) {
+	foreach ( $arr_lfs as $name => &$package_arr ) {
+		// Проверяем не отключен ли пакет
+		if ( isset($package_arr[$package[0]]) && $package_arr['status'] != 0 ) {
+			// Проверка главы пакета
+			$packages_id = explode( ';', $package_arr[$package[0]] );
+			foreach ( $packages_id as $package_id ) {
+				if ( $package_id == $package[1] ) {
+					echo $name . "\n";
+				};
+			};
+		};
+	};
+	exit (0);
+};
 
+// Находим пакет главы, книги
 $package_arr = &$arr_lfs[$package[2]];
 
 // Если не нашли пакет
 if ( count($package_arr) <= 0 ) {
 	exit ('Пакет ' . $argv[2] . ' не найден!' . "\n");
-}
+};
 
 // Проверяем не отключен ли пакет
 if ( $package_arr['status'] == 0 ) {
 	exit ('Пакет ' . $argv[2] . ' отключён!' . "\n");	
-}
+};
 
 // Проверка главы пакета
-if ( f_chapter ($package[0], $package[1], $package_arr) ) {
-	foreach ($package_arr as $key => $value) {
-		echo $key . '=' . $value . "\n";
-	}
-} else {
-	exit ('Пакет ' . $argv[2] . ' не найден в указанной главе книги!' . "\n");
-}
+$packages_id = explode( ';', $package_arr[$package[0]] );
+foreach ( $packages_id as $package_id ) {
+	if ( $package_id == $package[1] ) {
+		foreach ( $package_arr as $key => $value ) {
+			echo $key . '=' . $value . "\n";
+		};
+		exit (0);
+	};
+};
+
+exit ('Пакет ' . $argv[2] . ' не найден в указанной главе книги!' . "\n");
 
 ?>

@@ -30,7 +30,7 @@ if [ "${ERR_FLAG}" -eq 0 ]; then
 fi
 
 # Создание файла: "XX-files"
-minor_file_clfs ${*}
+minor_file ${*}
 echo ${ERR_FLAG} > ${CLFS_MINOR_LOG_DIR}/${ID}_flag
 }
 

@@ -3,7 +3,7 @@
 # Функция "minor_exec_io_clfs"
 # Version: 0.1
 
-minor_exec_io_clfs ()
+minor_exec_io ()
 {
 local actions=${1:-OFF}
 

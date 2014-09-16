@@ -1,28 +1,28 @@
 #!/bin/bash
 ################################################################################
-# Функция "tools_clfs"
+# Функция "tools"
 # Version: 0.1
 
-f_tools_clfs ()
+f_tools ()
 {
-local CLFS_FLAG='tools-clfs'
+local CLFS_FLAG='tools'
 
-case ${TOOLS_CLFS_FLAG} in
+case ${TOOLS_FLAG} in
 #	3) rm -fv ${CLFS_OUT}/??_${CLFS_ARCH}_clfs.tar.bz2 ;;
-	2) rm -fv ${CLFS_OUT}/06_${CLFS_ARCH}_clfs.tar.bz2 ;;
-	1) rm -fv ${CLFS_OUT}/05_${CLFS_ARCH}_clfs.tar.bz2 ;;
+	2) rm -fv ${CLFS_OUT}/pm_${CLFS_ARCH}_clfs.tar.bz2 ;;
+	1) rm -fv ${CLFS_OUT}/??_${CLFS_ARCH}_clfs.tar.bz2 ;;
 	0)
-		if [ "${SYSTEM_CLFS_FLAG}" -eq 0 ] && \
+		if [ "${SYSTEM_FLAG}" -eq 0 ] && \
 		   [ "${BLFS_FLAG}" -eq 0 ]; then
 			return 0
 		fi
 	;;
-	*) echo 'Не верный параметер константы "TOOLS_LFS_FLAG"' ;;
+	*) echo 'Не верный параметер константы "TOOLS_FLAG"' ;;
 esac
 
-color-echo "f_tools_clfs" ${YELLOW}
+color-echo "f_tools" ${YELLOW}
 
-#local CLFS_MF_LOG="${CLFS_LOG}/tools_clfs.log"
+#local CLFS_MF_LOG="${CLFS_LOG}/tools.log"
 #date > "${CLFS_MF_LOG}"
 
 # 4.2. Creating the ${CLFS}/tools Directory
@@ -79,6 +79,13 @@ export CLFS_CROSS_TOOLS=${CLFS_CROSS_TOOLS}
 export CLFS_TOOLS=${CLFS_TOOLS}
 export CLFS_ARCH=${CLFS_ARCH}
 
+# Флаги
+export PACKAGES_FLAG=${PACKAGES_FLAG}
+export TOOLS_FLAG=${TOOLS_FLAG}
+export SYSTEM_FLAG=${SYSTEM_FLAG}
+export BLFS_FLAG=${BLFS_FLAG}
+export SU_FLAG=${SU_FLAG}
+
 ## 5.2. Build CFLAGS
 #unset CFLAGS
 #unset CXXFLAGS
@@ -127,11 +134,11 @@ EOF
 # ---------------------------------
 cat >> /home/clfs/.bashrc << EOF
 
-${CLFS_PWD}/_su/_ctools.sh ${TOOLS_CLFS_FLAG} ${SYSTEM_CLFS_FLAG} ${BLFS_FLAG} ${SU_FLAG}
+${CLFS_PWD}/_su/f_ctools.sh
 exit \${?}
 EOF
 # ---------------------------------
-color-echo "Смена прав на каталоги: /home/clfs ${CLFS} ${CLFS_LOG} ${CLFS_OUT} ${CLFS_PKG} ${BUILD_DIR} ${CLFS_PWD}/${PREFIX}/tools_clfs" ${CYAN}
+color-echo "Смена прав на каталоги: /home/clfs ${CLFS} ${CLFS_LOG} ${CLFS_OUT} ${CLFS_PKG} ${BUILD_DIR} ${CLFS_PWD}/${PREFIX}/tools" ${CYAN}
 chown -R \
 	clfs \
 	/home/clfs \
@@ -139,7 +146,7 @@ chown -R \
 	"${CLFS_OUT}" \
 	"${CLFS_PKG}" \
 	"${BUILD_DIR}" \
-	"${CLFS_PWD}/${PREFIX}/tools_clfs"
+	"${CLFS_PWD}/${PREFIX}/tools"
 
 su - clfs
 

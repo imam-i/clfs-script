@@ -1,9 +1,9 @@
 #!/bin/bash
 ################################################################################
-# Функция "minor_pars_script_clfs"
+# Функция "minor_pars_script"
 # Version: 0.1
 
-minor_pars_script_clfs ()
+minor_pars_script ()
 {
 local file=${1}
 local section=${2}
@@ -11,7 +11,7 @@ local section=${2}
 sed -e "/^%${section}%/,/^%/p" \
     -n ${file} | \
 sed -e ':a;N;$!ba;s/\\\n//g' | \
-sed -e '/^%\|^$\|^#/d' \
+sed -e '/^%\|^$/d' \
     -e 's/ \{1,\}\|\t\{1,\}/ /g'
 #    -e 's/\t\{1,\}/ /g'
 }

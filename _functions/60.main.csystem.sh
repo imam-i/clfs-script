@@ -9,7 +9,7 @@ local CLFS_FLAG='system-clfs'
 
 local _LOG
 
-[ "${SYSTEM_CLFS_FLAG}" -eq 0 ] && return 0
+[ "${SYSTEM_FLAG}" -eq 0 ] && return 0
 
 color-echo "system_clfs" ${YELLOW}
 

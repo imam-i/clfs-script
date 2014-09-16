@@ -1,9 +1,9 @@
 #!/bin/bash
 ################################################################################
-# Функция монтирования "mount_clfs"
+# Функция монтирования "mount"
 # Version: 0.1
 
-f_mount_clfs ()
+f_mount ()
 {
 	if [ -n "$( mount | grep ${CLFS} )" ]; then
 		color-echo "Остались смонтированны:
@@ -32,7 +32,7 @@ f_mount_clfs ()
 
 		case "${_mount_point}" in
 		    'swap' )
-			if [ "${MOUNT_CLFS_FLAG}" -ne 0 ]; then
+			if [ "${MOUNT_FLAG}" -ne 0 ]; then
 				color-echo "Форматированние: ${_section} в ${_type}" ${CYAN}
 				mkswap ${_section}
 				color-echo "Монтирование: ${_section} в ${_mount_point}" ${CYAN}
@@ -41,7 +41,7 @@ f_mount_clfs ()
 			;;
 		    * )
 			install -dv "${CLFS}${_mount_point}"
-			if [ "${MOUNT_CLFS_FLAG}" -ne 0 ]; then
+			if [ "${MOUNT_FLAG}" -ne 0 ]; then
 				color-echo "Форматированние: ${_section} в ${_type}" ${CYAN}
 				${_mke2fs} ${_section}
 				color-echo "Монтирование: ${_section} в ${_mount_point}" ${CYAN}

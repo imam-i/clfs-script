@@ -1,9 +1,9 @@
 #!/bin/bash
 ################################################################################
-# Функция размонтирования "umount_clfs"
+# Функция размонтирования "umount"
 # Version: 0.1
 
-f_umount_clfs ()
+f_umount ()
 {
 
 local _log=${CLFS_LOG}/umount.log
@@ -26,13 +26,13 @@ do
 
 	case ${_mount_point} in
 	    'swap' )
-		[ "${MOUNT_CLFS_FLAG}" -ne 0 ] \
+		[ "${MOUNT_FLAG}" -ne 0 ] \
 			&& ( swapoff -v ${_section} >> ${_log} )
 	    ;;
 	    * )
 		if [ -n "$( mount | grep ${_section} )" ]; then
 			color-echo "Размонтирование: ${_mount_point}" ${CYAN}
-			if [ "${MOUNT_CLFS_FLAG}" -ne 0 ]; then
+			if [ "${MOUNT_FLAG}" -ne 0 ]; then
 				umount -v ${_section} >> ${_log}
 				if [ "${?}" -ne 0 ]; then
 					fuser -m -k ${_section} >> ${_log}

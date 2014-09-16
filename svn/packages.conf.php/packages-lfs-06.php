@@ -5,8 +5,8 @@ $arr = array (
 'linux' => array (
 		'status' => '1',
 		'lfs' => '05;06;08',
-		'version' => '3.13.6',
-		'md5' => '445aa27da818617409982f42902a6e41',
+		'version' => '3.16.2',
+		'md5' => '227814a1a523992400da5d5437552445',
 		'url' => 'ftp://ftp.kernel.org/pub/linux/kernel/v3.x/linux-_version.tar.xz'
 	),
 
@@ -18,20 +18,17 @@ $arr = array (
 		'url' => 'http://www.kernel.org/pub/linux/docs/man-pages/man-pages-_version.tar.xz'
 	),
 
-'eglibc' => array (
+'glibc' => array (
 		'status' => '1',
 		'lfs' => '05;06',
-		'version' => '2.18',
-		'md5' => '59e1f2500348a1abf346f5468543e785',
-		'url' => 'http://cross-lfs.org/files/eglibc-_version-r24829.tar.xz',
+		'version' => '2.20',
+		'md5' => '948a6e06419a01bd51e97206861595b0',
+		'url' => 'http://ftp.gnu.org/gnu/glibc/glibc-_version.tar.xz',
+
+		'md5patch1' => '9a5997c3452909b1769918c759eff8a2',
+		'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/systemd/glibc-_version-fhs-1.patch',
 
 		'depends_lfs' => 'notlfs.my.base-core:lfs.06.linux-headers:notlfs.my.tzdata'
-
-		//'md5patch1' => '9a5997c3452909b1769918c759eff8a2',
-		//'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/systemd/glibc-_version-fhs-1.patch'
-
-		//'md5patch2' => '0a3bd5919ea226efebed62833a0985c6',
-		//'urlpatch2' => 'http://www.linuxfromscratch.org/patches/lfs/development/glibc-_version-fix_test_installation-1.patch'
 	),
 
 'test-ld' => array (
@@ -57,8 +54,8 @@ $arr = array (
 'file' => array (
 		'status' => '1',
 		'lfs' => '05;06',
-		'version' => '5.17',
-		'md5' => 'e19c47e069ced7b01ccb4db402cc01d3',
+		'version' => '5.19',
+		'md5' => 'e3526f59023f3f7d1ffa4d541335edab',
 		'url' => 'ftp://ftp.astron.com/pub/file/file-_version.tar.gz',
 
 		'depends_lfs' => 'lfs.06.glibc:lfs.06.zlib'
@@ -71,18 +68,18 @@ $arr = array (
 		'md5' => 'e0f71a7b2ddab0f8612336ac81d9636b',
 		'url' => 'http://ftp.gnu.org/gnu/binutils/binutils-_version.tar.bz2',
 
-		'depends_lfs' => 'lfs.06.glibc:lfs.06.zlib:lfs.06.file'
-
 		//'md5patch1' => 'cb47fae1bc572d45f4b0cff8ae8ecba8',
-		//'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/binutils-_version-testsuite_fix-1.patch'
+		//'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/binutils-_version-testsuite_fix-1.patch',
+
+		'depends_lfs' => 'lfs.06.glibc:lfs.06.zlib:lfs.06.file'
 	),
 
 'gmp' => array (
 		'status' => '1',
 		'lfs' => '05;06',
-		'version' => '5.1.3',
-		'md5' => 'e5fe367801ff067b923d1e6a126448aa',
-		'url' => 'ftp://ftp.gmplib.org/pub/gmp-_version/gmp-_version.tar.xz'
+		'version' => '6.0.0a',
+		'md5' => '1e6da4e434553d2811437aa42c7f7c76',
+		'url' => 'http://ftp.gnu.org/gnu//gmp/gmp-_version.tar.xz'
 	),
 
 'mpfr' => array (
@@ -91,9 +88,6 @@ $arr = array (
 		'version' => '3.1.2',
 		'md5' => 'e3d203d188b8fe60bb6578dd3152e05c',
 		'url' => 'http://www.mpfr.org/mpfr-_version/mpfr-_version.tar.xz',
-
-		'md5patch1' => '2951be1103eb20a4acff2a8fce29ca22',
-		'urlpatch1' => 'http://patches.cross-lfs.org/dev/mpfr-_version-fixes-2.patch',
 
 		'depends_lfs' => 'lfs.06.gmp'
 	),
@@ -108,40 +102,14 @@ $arr = array (
 		'depends_lfs' => 'lfs.06.mpfr'
 	),
 
-'isl' => array (
-		'status' => '1',
-		'lfs' => '05;06',
-		'version' => '0.12.2',
-		'md5' => 'e039bfcfb6c2ab039b8ee69bf883e824',
-		'url' => 'http://isl.gforge.inria.fr/isl-_version.tar.bz2'
-	),
-
-'cloog' => array (
-		'status' => '1',
-		'lfs' => '05;06',
-		'version' => '0.18.2',
-		'md5' => '69116aa6cd5e73f6b688d871875e1292',
-		'url' => 'http://www.bastoul.net/cloog/pages/download/cloog-_version.tar.gz'
-	),
-
 'gcc' => array (
 		'status' => '1',
 		'lfs' => '05;06',
-		'version' => '4.8.2',
-		'md5' => 'a3d7d63b9cb6b6ea049469a0c4a43c9d',
+		'version' => '4.9.1',
+		'md5' => 'fddf71348546af523353bd43d34919c1',
 		'url' => 'http://ftp.gnu.org/gnu/gcc/gcc-_version/gcc-_version.tar.bz2',
 
-		'md5patch1' => '30b9b9e35cb742edf380b0c05c9a5879',
-		'urlpatch1' => 'http://patches.cross-lfs.org/dev/gcc-_version-branch_update-2.patch',
-
-		'md5patch2' => '9171752b98dfe0d70a7de070a7bda97a',
-		'urlpatch2' => 'http://patches.cross-lfs.org/dev/gcc-_version-pure64-1.patch',
-
-		'md5patch3' => 'fabdca21111902c04052c6b64c947944',
-		'urlpatch3' => 'http://patches.cross-lfs.org/dev/gcc-_version-pure64_specs-1.patch',
-
-		'md5patch4' => '14aa064a113f2cae0f877039bb4a6357',
-		'urlpatch4' => 'http://patches.cross-lfs.org/dev/gcc-_version-specs-1.patch',
+		'extract_lfs_05' => 'gmp;mpfr;mpc',
 
 		'depends_lfs' => 'lfs.06.binutils:lfs.06.gmp:lfs.06.mpfr:lfs.06.mpc'
 		//'checkdepends' => 'lfs.05.dejagnu:lfs.05.expect'
@@ -153,9 +121,6 @@ $arr = array (
 		'version' => '4.2.2',
 		'md5' => '7ffe1c7cdc3233e1e0c4b502df253974',
 		'url' => 'http://ftp.gnu.org/gnu/sed/sed-_version.tar.bz2'
-
-		//'md5patch1' => '2c10a5804eedf5359bcf427bc0d05579',
-		//'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/sed-_version-testsuite_fixes-1.patch'
 	),
 
 'bzip2' => array (
@@ -187,21 +152,15 @@ $arr = array (
 		'md5' => '8cb9c412e5f2d96bc6f459aa8c6282a1',
 		'url' => 'ftp://ftp.gnu.org/gnu/ncurses/ncurses-_version.tar.gz',
 
-		'md5patch1' => 'c6f7f2ab0ebaf7721ebeb266641352db',
-		'urlpatch1' => 'http://patches.cross-lfs.org/dev/ncurses-_version-bash_fix-1.patch',
-
-		'md5patch2' => 'c2b2dc2d31b02c218359e6218f12a72c',
-		'urlpatch2' => 'http://patches.cross-lfs.org/dev/ncurses-_version-branch_update-4.patch',
-
 		'depends_lfs' => 'lfs.06.glibc'
 	),
 
 'shadow' => array (
 		'status' => '1',
-		'lfs' => '05;06',
+		'lfs' => '06',
 		'version' => '4.1.5.1',
-		'md5' => 'ae66de9953f840fb3a97f6148bc39a30',
-		'url' => 'http://cdn.debian.net/debian/pool/main/s/shadow/shadow__version.orig.tar.gz',
+		'md5' => 'a00449aa439c69287b6d472191dc2247',
+		'url' => 'http://pkg-shadow.alioth.debian.org/releases/shadow-_version.tar.bz2',
 
 		'depends_blfs' => 'blfs.04.Linux-PAM'
 	),
@@ -209,9 +168,9 @@ $arr = array (
 'util-linux' => array (
 		'status' => '1',
 		'lfs' => '05;06',
-		'version' => '2.24.1',
-		'md5' => '88d46ae23ca599ac5af9cf96b531590f',
-		'url' => 'http://www.kernel.org/pub/linux/utils/util-linux/v2.24/util-linux-_version.tar.xz',
+		'version' => '2.25.1',
+		'md5' => '2ff36a8f8ede70f66c5ad0fb09e40e79',
+		'url' => 'http://www.kernel.org/pub/linux/utils/util-linux/v2.25/util-linux-_version.tar.xz',
 
 		'depends_lfs' => 'lfs.06.shadow:lfs.06.glibc'
 	),
@@ -249,15 +208,12 @@ $arr = array (
 'coreutils' => array (
 		'status' => '1',
 		'lfs' => '05;06',
-		'version' => '8.22',
-		'md5' => '8fb0ae2267aa6e728958adc38f8163a2',
+		'version' => '8.23',
+		'md5' => 'abed135279f87ad6762ce57ff6d89c41',
 		'url' => 'http://ftp.gnu.org/gnu/coreutils/coreutils-_version.tar.xz',
 
-		'md5patch1' => '54c99871cd0ca20f29bdc9462e27f0df',
-		'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/coreutils-_version-i18n-4.patch',
-
-		'md5patch2' => '6ed8f515391580e51f170a32af6fc7b9',
-		'urlpatch2' => 'http://patches.cross-lfs.org/dev/coreutils-_version-noman-1.patch',
+		'md5patch1' => '587051bc411e0da9b3bf8984b49b364e',
+		'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/coreutils-_version-i18n-1.patch',
 
 		'depends_lfs' => 'lfs.06.glibc:lfs.06.gmp'
 	),
@@ -288,9 +244,6 @@ $arr = array (
 		'url' => 'http://prdownloads.sourceforge.net/flex/flex-_version.tar.bz2',
 
 		'depends_lfs' => 'lfs.06.glibc:lfs.06.m4'
-
-		//'md5patch1' => 'd5b001ef9bdbbe32e2f27576d97d8ff0',
-		//'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/flex-_version-bison-2.6.1-1.patch'
 	),
 
 'bison' => array (
@@ -306,8 +259,8 @@ $arr = array (
 'grep' => array (
 		'status' => '1',
 		'lfs' => '05;06',
-		'version' => '2.18',
-		'md5' => '7439f8266f50844b56cc3e2721606541',
+		'version' => '2.20',
+		'md5' => '2cbea44a4f1548aee20b9ff2d3076908',
 		'url' => 'http://ftp.gnu.org/gnu/grep/grep-_version.tar.xz',
 
 		'depends_lfs' => 'lfs.06.glibc'
@@ -320,10 +273,10 @@ $arr = array (
 		'md5' => '33c8fb279e981274f485fd91da77e94a',
 		'url' => 'http://ftp.gnu.org/gnu/readline/readline-_version.tar.gz',
 
-		'depends_lfs' => 'lfs.06.glibc:lfs.06.ncurses'
-
 		//'md5patch1' => 'b793b2bf1306bc62e5f1e7ebbdae2f35',
-		//'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/readline-_version-fixes-2.patch'
+		//'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/readline-_version-fixes-2.patch',
+
+		'depends_lfs' => 'lfs.06.glibc:lfs.06.ncurses'
 	),
 
 'bash' => array (
@@ -333,18 +286,21 @@ $arr = array (
 		'md5' => '81348932d5da294953e15d4814c74dd1',
 		'url' => 'http://ftp.gnu.org/gnu/bash/bash-_version.tar.gz',
 
-		'depends_lfs' => 'lfs.06.glibc:lfs.06.readline',
+		'md5patch1' => '3266ce3d2f0aa647d4ef068e46899246',
+		'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/systemd/bash-_version-upstream_fixes-3.patch',
 
-		'md5patch1' => 'a0ae18e2dc5c9c5e125e0ea3fa6febbe',
-		'urlpatch1' => 'http://patches.cross-lfs.org/dev/bash-_version-branch_update-1.patch'
+		'depends_lfs' => 'lfs.06.glibc:lfs.06.readline'
 	),
 
 'bc' => array (
 		'status' => '1',
-		'lfs' => '05;06',
+		'lfs' => '06',
 		'version' => '1.06.95',
 		'md5' => '5126a721b73f97d715bb72c13c889035',
-		'url' => 'http://alpha.gnu.org/gnu/bc/bc-_version.tar.bz2',
+		'url' => 'ftp://alpha.gnu.org/gnu/bc/bc-_version.tar.bz2',
+
+		'md5patch1' => '877e81fba316fe487ec23501059d54b8',
+		'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/systemd/bc-_version-memory_leak-1.patch',
 
 		'depends_lfs' => 'lfs.06.glibc'
 	),
@@ -382,12 +338,9 @@ $arr = array (
 'perl' => array (
 		'status' => '1',
 		'lfs' => '05;06',
-		'version' => '5.18.2',
-		'md5' => 'd549b16ee4e9210988da39193a9389c1',
+		'version' => '5.20.0',
+		'md5' => '20cbecd4e9e880ee7a50a136c8b1484e',
 		'url' => 'http://www.cpan.org/src/5.0/perl-_version.tar.bz2',
-
-		'md5patch1' => 'daf5c64fd7311e924966842680535f8f',
-		'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/perl-_version-libc-1.patch',
 
 		'depends_lfs' => 'lfs.06.coreutils:lfs.06.gdbm:lfs.06.glibc'
 	),
@@ -412,9 +365,6 @@ $arr = array (
 		'depends_lfs' => 'lfs.06.perl:lfs.06.bash',
 
 		'makedepends_lfs' => 'lfs.06.autoconf'
-
-		//'md5patch1' => 
-		//'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/automake-_version-test-1.patch'
 	),
 
 'diffutils' => array (
@@ -430,8 +380,8 @@ $arr = array (
 'gawk' => array (
 		'status' => '1',
 		'lfs' => '05;06',
-		'version' => '4.1.0',
-		'md5' => 'b18992ff8faf3217dab55d2d0aa7d707',
+		'version' => '4.1.1',
+		'md5' => 'a2a26543ce410eb74bc4a508349ed09a',
 		'url' => 'http://ftp.gnu.org/gnu/gawk/gawk-_version.tar.xz',
 
 		'depends_lfs' => 'lfs.06.glibc:lfs.06.mpfr'
@@ -450,8 +400,8 @@ $arr = array (
 'gettext' => array (
 		'status' => '1',
 		'lfs' => '05;06',
-		'version' => '0.18.3.2',
-		'md5' => '241aba309d07aa428252c74b40a818ef',
+		'version' => '0.19.2',
+		'md5' => '1e6a827f5fbd98b3d40bd16b803acc44',
 		'url' => 'http://ftp.gnu.org/gnu/gettext/gettext-_version.tar.gz',
 
 		'depends_lfs' => 'lfs.06.gcc'
@@ -459,7 +409,7 @@ $arr = array (
 
 'groff' => array (
 		'status' => '1',
-		'lfs' => '05;06',
+		'lfs' => '06',
 		'version' => '1.22.2',
 		'md5' => '9f4cd592a5efc7e36481d8d8d8af6d16',
 		'url' => 'http://ftp.gnu.org/gnu/groff/groff-_version.tar.gz',
@@ -536,9 +486,6 @@ $arr = array (
 		'url' => 'http://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-_version.tar.xz',
 
 		'depends_lfs' => 'lfs.06.glibc:lfs.06.zlib'
-
-		//'md5patch1' => 'ac03d29f6c2fcfd455c10618c3515d05',
-		//'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/kmod-_version-testsuite-1.patch'
 	),
 
 'libpipeline' => array (
@@ -559,9 +506,6 @@ $arr = array (
 		'url' => 'http://ftp.gnu.org/gnu/make/make-_version.tar.bz2',
 
 		'depends_lfs' => 'lfs.06.bash:lfs.06.glibc'
-
-		//'md5patch1' => '95027ab5b53d01699845d9b7e1dc878d',
-		//'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/make-_version-upstream_fixes-3.patch',
 	),
 
 'man-db' => array (
@@ -584,40 +528,14 @@ $arr = array (
 		'depends_lfs' => 'lfs.06.glibc'
 	),
 
-'sysklogd' => array (
-		'status' => '1',
-		'lfs' => '06',
-		'version' => '1.5',
-		'md5' => 'e053094e8103165f98ddafe828f6ae4b',
-		'url' => 'http://www.infodrom.org/projects/sysklogd/download/sysklogd-_version.tar.gz',
-
-		'depends_lfs' => 'lfs.06.glibc'
-	),
-
-'sysvinit' => array (
-		'status' => '1',
-		'lfs' => '06',
-		'version' => '2.88dsf',
-		'md5' => '6eda8a97b86e0a6f59dabbf25202aa6f',
-		'url' => 'http://download.savannah.gnu.org/releases/sysvinit/sysvinit-_version.tar.bz2',
-
-		'depends_lfs' => 'lfs.06.glibc',
-
-		'md5patch1' => '0b7b5ea568a878fdcc4057b2bf36e5cb',
-		'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/sysvinit-_version-consolidated-1.patch'
-	),
-
 'tar' => array (
 		'status' => '1',
 		'lfs' => '05;06',
-		'version' => '1.27.1',
-		'md5' => 'e0382a4064e09a4943f3adeff1435978',
+		'version' => '1.28',
+		'md5' => '49b6306167724fe48f419a33a5beb857',
 		'url' => 'http://ftp.gnu.org/gnu/tar/tar-_version.tar.xz',
 
-		'depends_lfs' => 'lfs.06.bash:lfs.06.glibc',
-
-		'md5patch1' => '321f85ec32733b1a9399e788714a5156',
-		'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/development/tar-_version-manpage-1.patch'
+		'depends_lfs' => 'lfs.06.bash:lfs.06.glibc'
 	),
 
 'texinfo' => array (
@@ -633,17 +551,12 @@ $arr = array (
 'systemd' => array (
 		'status' => '1',
 		'lfs' => '06',
-		'version' => '212',
-		'md5' => '257a75fff826ff91cb1ce567091cf270',
+		'version' => '211',
+		'md5' => '0a70c382b6089526f98073b4ee85ef75',
 		'url' => 'http://www.freedesktop.org/software/systemd/systemd-_version.tar.xz',
 
-		'md5patch1' => '7a1202e996122e6f2e10e94cba862ed8',
+		'md5patch1' => '0edc54bbe9391cfb072bc737312e6b7a',
 		'urlpatch1' => 'http://www.linuxfromscratch.org/patches/lfs/systemd/systemd-_version-compat-1.patch'
-
-		//'nconf' => 'udev-lfs',
-		//'verconf' => '208-1',
-		//'md5conf' => '67a5339e7ef1fa08f5db8315a5ea69e7',
-		//'urlconf' => 'http://anduin.linuxfromscratch.org/sources/other/udev-lfs-_version.tar.bz2'
 	),
 
 
@@ -654,15 +567,7 @@ $arr = array (
 		'md5' => '607e135c559be642f210094ad023dc65',
 		'url' => 'ftp://ftp.vim.org/pub/vim/unix/vim-_version.tar.bz2',
 
-		'depends_lfs' => 'lfs.06.ncurses',
-
-		'md5patch1' => 'aa2e7384582ddd94ce7e5d91bebce78f',
-		'urlpatch1' => 'http://patches.cross-lfs.org/dev/vim-_version-branch_update-2.patch'
-
-		//'nconf' => 'vim',
-		//'verconf' => '7.2',
-		//'md5conf' => 'd8884786979e0e520c112faf2e176f05',
-		//'urlconf' => 'ftp://ftp.vim.org/pub/vim/extra/vim-_version-lang.tar.gz'
+		'depends_lfs' => 'lfs.06.ncurses'
 	),
 
 ### Systemd ###

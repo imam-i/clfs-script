@@ -5,9 +5,9 @@ $arr = array (
 'tcl' => array (
 		'status' => '1',
 		'lfs' => '05',
-		'version' => '8.6.1-src',
-		'md5' => 'aae4b701ee527c6e4e1a6f9c7399882e',
-		'url' => 'http://prdownloads.sourceforge.net/tcl/tcl_version.tar.gz'
+		'version' => '8.6.2-src',
+		'md5' => '8103eaf6d71acb716a64224492f09d5f',
+		'url' => 'http://downloads.sourceforge.net/project/tcl/Tcl/8.6.2/tcl_version.tar.gz'
 	),
 
 'expect' => array (
@@ -28,18 +28,10 @@ $arr = array (
 
 'check' => array (
 		'status' => '1',
-		'lfs' => '06',
-		'version' => '0.9.12',
-		'md5' => '46fe540d1a03714c7a1967dbc6d484e7',
-		'url' => 'http://sourceforge.net/projects/check/files/check/_version/check-_version.tar.gz'
-	),
-
-'sysroot-warpper' => array (
-		'status' => '1',
 		'lfs' => '05',
-		'version' => '0.1',
-		'md5' => 'NONE',
-		'url' => 'NONE'
+		'version' => '0.9.14',
+		'md5' => '38263d115d784c17aa3b959ce94be8b8',
+		'url' => 'http://sourceforge.net/projects/check/files/check/_version/check-_version.tar.gz'
 	),
 
 );

@@ -23,8 +23,8 @@ $arr = array (
 'tzdata' => array (
 		'status' => '1',
 		'notlfs' => 'my',
-		'version' => '2014a',
-		'md5' => '423a11bcffc10dda578058cf1587d048',
+		'version' => '2014g',
+		'md5' => 'f9f59425e55b21d2e52bb3a95fc17b8d',
 		'url' => 'http://www.iana.org/time-zones/repository/releases/tzdata_version.tar.gz'
 	),
 

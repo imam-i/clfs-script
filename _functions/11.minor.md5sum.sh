@@ -1,9 +1,9 @@
 #!/bin/bash
 ################################################################################
-# Функция "md5sum_clfs"
+# Функция "md5sum"
 # Version: 0.1
 
-f_md5sum_clfs ()
+f_md5sum ()
 {
 	pushd ${CLFS_SRC} > /dev/null 2>&1
 		local _arch=${CLFS_SRC}/`basename ${1:-$url}`
@@ -13,8 +13,8 @@ f_md5sum_clfs ()
 				color-echo "md5 file `basename ${1:-$url}`: `md5sum ${_arch} | cut -d' ' -f1`" ${RED}
 				color-echo "Ожидался: ${2:-$md5}" ${RED}
 				return ${ERR_FLAG}
-			else
-				echo "Успешно!" >> ${_log}
+#			else
+#				echo "Успешно!"
 			fi
 		else
 			echo "md5sum ${_arch}"

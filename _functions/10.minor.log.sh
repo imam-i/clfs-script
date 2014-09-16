@@ -55,7 +55,7 @@ fi |  ( IFS=`printf "\n"`
 			printf "${!cur_L}${CT_LOG_PROGRESS_BAR:+\r}[%-5s]%s%s${NC}\n" "${cur_L}" " " "${line}" >&6
 #			printf "\r${!color}%s${NC}\n" "${@}" >&6
 		fi
-		if [ "${CT_LOG_PROGRESS_BAR}" = "y" ]; then
+		if [ "${CT_LOG_PROGRESS_BAR}" = "y" ] && [ "${cur_L}" != 'WARN' ]; then
 			printf "\r[%02d:%02d] %s" $((SECONDS/60)) $((SECONDS%60)) "${_prog_bar[$((_prog_bar_cpt/10))]}" >&6
 			_prog_bar_cpt=$(((_prog_bar_cpt+1)%40))
 		fi

@@ -46,13 +46,13 @@ for _ARG in $*
 do
 	case "${_ARG}" in
 		-m | --mount)
-			MOUNT_CLFS_FLAG=1
+			MOUNT_FLAG=1
 		;;
 		-t | --tools)
-			TOOLS_CLFS_FLAG=2
+			TOOLS_FLAG=1
 		;;
 		-s | --system)
-			SYSTEM_CLFS_FLAG=1
+			SYSTEM_FLAG=1
 		;;
 		-b | --blfs)
 			BLFS_FLAG=1
@@ -61,7 +61,7 @@ do
 			SU_FLAG=1
 		;;
 		-d | --download)
-			PACKAGES_CLFS_FLAG=1
+			PACKAGES_FLAG=1
 		;;
 		--clean)
 			if [ -z "$(fgrep "${CLFS}" /proc/mounts)" ]; then
@@ -93,38 +93,38 @@ fi
 [ -n "$(grep ^i: /etc/passwd 2> /dev/null)" ] && chown i:i -R ${CLFS_PWD}
 
 # Размонтирование разделов.
-f_umount_clfs || exit ${?}
+f_umount || exit ${?}
 
 # Перехватываем ошибки.
 trap _ERROR ERR
 set -eE
 
 # Подготовка и монтирование разделов.
-f_mount_clfs
+f_mount
 
 # Назначение переменных (массивов) хроняших информацию о пакетах.
 #array_packages
 
 # Скачиваем пакеты.
-f_packages_clfs 'lfs.06.all'
+#f_packages 'lfs.06.all'
 
 # Создание необходимых каталогов и сборка временной системы.
-f_tools_clfs
+f_tools
 
 # Входим в su - clfs
 #su_clfs
 
 # Сборка основной системы.
-system_clfs
+f_system
 
 # Сборка BLFS.
-#beyond_clfs
+#f_beyond
 
 # Входим в chroot
 #chroot_clfs
 
 # Размонтирование разделов и очистка системы.
-f_umount_clfs
+f_umount
 
 # Сменяем права доступа на скрипты если имеется пользователь i.
 [ -n "$(grep ^i: /etc/passwd 2> /dev/null)" ] && chown i:i -R ${CLFS_PWD}
