@@ -3,35 +3,39 @@
 # Функция "su_tools"
 # Version: 0.1
 
-f_su_tools ()
+su_tools ()
 {
 cd ${CLFS_PWD}
+
+# Определяем переменные.
+source ${CLFS_PWD}/conf/config.sh
+
+# Определяем функции.
 for _functions in ${CLFS_PWD}/_functions/*.sh
 do
 	. ${_functions}
 done
 
-local CLFS_FLAG='su_tools'
-
-#local TOOLS_FLAG=${1}
-#local SYSTEM_FLAG=${2}
-#local BLFS_FLAG=${3}
-#local SU_FLAG=${4}
-
 # Перехватываем ошибки.
 trap _ERROR ERR
-set -eo pipefail
+set -Eo pipefail
 
 # Удаляем запуск скрипта.
-sed -e "/\/_su\/f_ctools.sh/d" \
+sed -e "/\/_su\/_ctools.sh/d" \
     -e '/^exit/d' \
     -i ~/.bashrc
 
 # Каталог для хронения лог-файлов tools
-CLFS_MAIN_LOG_DIR="${CLFS_LOG}/tools"
+local CLFS_MAIN_LOG_DIR="${CLFS_LOG}/tools"
+local CLFS_MAIN_LOG_FILE="${CLFS_LOG}/tools.log"
 install -d ${CLFS_MAIN_LOG_DIR}
 
-minor_scripts 'lfs.05.Constructing a Temporary System'
+minor_exec_io OK
+exec >> ${CLFS_MAIN_LOG_FILE} 2>> ${CLFS_MAIN_LOG_FILE}
+
+minor_scripts 'nolfs.pm.PacMan' 'lfs.05.Tools'
+
+exec >> ${CLFS_MAIN_LOG_FILE} 2>> ${CLFS_MAIN_LOG_FILE}
 
 ## 6.2. Build Variables
 #export CC="${CLFS_TARGET}-gcc"
@@ -52,9 +56,13 @@ minor_scripts 'lfs.05.Constructing a Temporary System'
 
 #f_scripts_clfs '06.Constructing a Temporary System' 05
 
-set +e
+echo $ERR_FLAG > ${CLFS_LOG}/tools.flag
+
+minor_exec_io OFF
+
+set +E
 }
 
-f_su_tools
+su_tools
 
 ################################################################################

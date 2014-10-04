@@ -1,10 +1,10 @@
 %CONFIG%
 cd ../${name}-${version}
-patch -Np1 -i ${LFS_SRC}/bash-${version}-upstream_fixes-3.patch
+patch -Np1 -i ${LFS_SRC}/bash-${version}-upstream_fixes-6.patch
 
 cd ../${name}-build
 ../${name}-${version}/configure \
-	--prefix=/tools         \
+	--prefix=/tools             \
 	--without-bash-malloc
 
 %BUILD%

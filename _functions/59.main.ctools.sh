@@ -3,9 +3,9 @@
 # Функция "tools"
 # Version: 0.1
 
-f_tools ()
+main_tools ()
 {
-local CLFS_FLAG='tools'
+local CLFS_FLAG="${FUNCNAME}"
 
 case ${TOOLS_FLAG} in
 #	3) rm -fv ${CLFS_OUT}/??_${CLFS_ARCH}_clfs.tar.bz2 ;;
@@ -20,7 +20,7 @@ case ${TOOLS_FLAG} in
 	*) echo 'Не верный параметер константы "TOOLS_FLAG"' ;;
 esac
 
-color-echo "f_tools" ${YELLOW}
+color-echo "${FUNCNAME}" ${YELLOW}
 
 #local CLFS_MF_LOG="${CLFS_LOG}/tools.log"
 #date > "${CLFS_MF_LOG}"
@@ -41,12 +41,12 @@ if [ -z "$(fgrep clfs /etc/group)" ]; then
 fi
 
 if [ -z "$(fgrep clfs /etc/passwd)" ]; then
-	useradd -s /bin/bash -g clfs -m -d /home/clfs clfs
+	useradd -s /bin/bash -g clfs -m -k /dev/null -d /home/clfs clfs
 else
 	usermod -s /bin/bash -g clfs -m -d /home/clfs clfs
 fi
 install -dv /home/clfs
-yes 'clfs' | passwd clfs
+yes 'clfs' | passwd clfs || [ "${?}" -eq 141 ] && true || false
 chown -v clfs ${CLFS_TOOLS}
 #chown -v clfs ${CLFS_CROSS_TOOLS}
 chown -v clfs ${CLFS_SRC}
@@ -70,8 +70,9 @@ set +h
 umask 022
 CLFS=${CLFS}
 LC_ALL=POSIX
+LFS_TGT=$(uname -m)-lfs-linux-gnu
 PATH=/tools/bin:/bin:/usr/bin
-export CLFS LC_ALL PATH
+export CLFS LC_ALL LFS_TGT PATH
 
 # назначаем переменные CLFS_PWD CLFS_CROSS_TOOLS CLFS_TOOLS CLFS_ARCH
 export CLFS_PWD=${CLFS_PWD}
@@ -134,7 +135,7 @@ EOF
 # ---------------------------------
 cat >> /home/clfs/.bashrc << EOF
 
-${CLFS_PWD}/_su/f_ctools.sh
+${CLFS_PWD}/_su/_ctools.sh
 exit \${?}
 EOF
 # ---------------------------------

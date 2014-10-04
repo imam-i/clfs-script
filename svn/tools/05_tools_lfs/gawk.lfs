@@ -5,7 +5,7 @@
 make
 
 %CHECK%
-make check
+#make check
 
 %INSTALL%
 make install

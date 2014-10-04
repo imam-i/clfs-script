@@ -3,7 +3,7 @@
 # Функция размонтирования "umount"
 # Version: 0.1
 
-f_umount ()
+main_umount ()
 {
 
 local _log=${CLFS_LOG}/umount.log

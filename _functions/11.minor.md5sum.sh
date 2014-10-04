@@ -3,22 +3,25 @@
 # Функция "md5sum"
 # Version: 0.1
 
-f_md5sum ()
+minor_md5sum ()
 {
+	local url="${1}"
+	local md5="${2}"
+	local _arch=${CLFS_SRC}/`basename ${url}`
+
+	minor_log INFO 'MD5SUM: '`basename ${url}`
+
 	pushd ${CLFS_SRC} > /dev/null 2>&1
-		local _arch=${CLFS_SRC}/`basename ${1:-$url}`
-		if [ -n "${2:-$md5}" ]; then
-			echo "${2:-$md5}  ${_arch}" | md5sum -c || ERR_FLAG=${?}
+		if [ -n "${md5}" ]; then
+			eval "echo ${md5}  ${_arch} | md5sum -c" 2>&1 | minor_log ALL
 			if [ "${ERR_FLAG}" -gt 0 ]; then
-				color-echo "md5 file `basename ${1:-$url}`: `md5sum ${_arch} | cut -d' ' -f1`" ${RED}
-				color-echo "Ожидался: ${2:-$md5}" ${RED}
+				minor_log ERROR "md5 file ${_arch}: `md5sum ${_arch} | cut -d' ' -f1`"
+				minor_log ERROR "Ожидался: ${md5}"
 				return ${ERR_FLAG}
-#			else
-#				echo "Успешно!"
 			fi
 		else
-			echo "md5sum ${_arch}"
-			md5sum ${_arch}
+			minor_log INFO "md5sum ${_arch}"
+			md5sum ${_arch} 2>&1 | minor_log ALL
 			popd > /dev/null 2>&1
 			return 1
 		fi

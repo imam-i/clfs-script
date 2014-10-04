@@ -5,19 +5,39 @@
 
 _ERROR ()
 {
-local _ERR=${?}
+ERR_FLAG=${?}
 
-color-echo "Ошибка № ${_ERR} в ${CLFS_FLAG} !!!" ${RED}
+case "${CLFS_FLAG}" in
+	minor_build_run | minor_build | minor_download | minor_unarch)
+#		ERR_FLAG=${_ERR}
+		return 0
+	;;
+	minor_scripts)
+		minor_exec_io OFF
+		echo ${ERR_FLAG} > ${CLFS_MAIN_LOG_DIR}/${ID}.flag
+	;;
+	su_tools)
+		minor_exec_io OFF 2> /dev/null || true
+		echo ${ERR_FLAG} > ${CLFS_LOG}/tools.flag
+	;;
+esac
+
+color-echo $'\r'"Ошибка № ${ERR_FLAG} в ${CLFS_FLAG} !!!" ${RED}
 
 read
 
 case "${CLFS_FLAG}" in
-	clfs | tools-clfs) f_umount_clfs ;;
-	_tools-clfs)       echo ${_ERR} > ${CLFS_MINOR_LOG_DIR}/${ID}_flag ;;
-	f_log)             minor_exec_io_clfs OFF ;;
+	clfs | main_tools)
+		main_umount
+	;;
+#	minor_scripts)
+#		minor_exec_io OFF
+#		echo ${ERR_FLAG} > ${CLFS_MINOR_LOG_DIR}/${ID}_flag
+#	;;
+#	f_log)             minor_exec_io OFF ;;
 esac
 
-exit ${_ERR}
+exit ${ERR_FLAG}
 }
 
 ################################################################################

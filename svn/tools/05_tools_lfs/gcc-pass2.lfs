@@ -1,5 +1,5 @@
 %CONFIG%
-cd ../${name}-${version}
+cd ../gcc-${version}
 cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
   `dirname $(${LFS_TGT}-gcc -print-libgcc-file-name)`/include-fixed/limits.h
 
@@ -24,18 +24,18 @@ mv -v ../mpc-* mpc
 sed -i 's/if \((code.*))\)/if (\1 \&\& \!DEBUG_INSN_P (insn))/' gcc/sched-deps.c
 
 cd ../${name}-build
-CC=${LFS_TGT}-gcc               \
-CXX=${LFS_TGT}-g++              \
-AR=${LFS_TGT}-ar                \
-RANLIB=${LFS_TGT}-ranlib        \
-../${name}-${version}/configure \
-    --prefix=/tools             \
-    --with-local-prefix=/tools  \
+CC=${LFS_TGT}-gcc              \
+CXX=${LFS_TGT}-g++             \
+AR=${LFS_TGT}-ar               \
+RANLIB=${LFS_TGT}-ranlib       \
+../gcc-${version}/configure    \
+    --prefix=/tools            \
+    --with-local-prefix=/tools \
     --with-native-system-header-dir=/tools/include \
-    --enable-languages=c,c++    \
-    --disable-libstdcxx-pch     \
-    --disable-multilib          \
-    --disable-bootstrap         \
+    --enable-languages=c,c++   \
+    --disable-libstdcxx-pch    \
+    --disable-multilib         \
+    --disable-bootstrap        \
     --disable-libgomp
 
 %BUILD%

@@ -1,5 +1,5 @@
 %CONFIG%
-cd ../${name}-${version}/
+cd ../gcc-${version}/
 
 mv -v ../mpfr-* mpfr
 mv -v ../gmp-* gmp
@@ -24,7 +24,7 @@ sed -i '/k prot/agcc_cv_libc_provides_ssp=yes' gcc/configure
 sed -i 's/if \((code.*))\)/if (\1 \&\& \!DEBUG_INSN_P (insn))/' gcc/sched-deps.c
 
 cd ../${name}-build
-../${name}-${version}/configure    \
+../gcc-${version}/configure    \
 	--target=${LFS_TGT}        \
 	--prefix=/tools            \
 	--with-sysroot=${LFS}      \

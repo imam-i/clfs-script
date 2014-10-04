@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Очистка переменных
-f_clear_per ()
+minor_clear_per ()
 {
 for per in ${1}
 do

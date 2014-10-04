@@ -11,7 +11,7 @@ do
 	. ${_functions}
 done
 
-local CLFS_FLAG='_system-clfs'
+#local CLFS_FLAG='_system-clfs'
 
 local TOOLS_CLFS_FLAG=${1}
 local SYSTEM_CLFS_FLAG=${2}

@@ -3,7 +3,7 @@
 # Функция монтирования "mount"
 # Version: 0.1
 
-f_mount ()
+main_mount ()
 {
 	if [ -n "$( mount | grep ${CLFS} )" ]; then
 		color-echo "Остались смонтированны:

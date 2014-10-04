@@ -1,19 +1,19 @@
 #!/bin/bash
 ################################################################################
-# Функция "system_clfs"
+# Функция "system"
 # Version: 0.1
 
-system_clfs ()
+function system ()
 {
-local CLFS_FLAG='system-clfs'
+local CLFS_FLAG="${FUNCNAME}"
 
 local _LOG
 
 [ "${SYSTEM_FLAG}" -eq 0 ] && return 0
 
-color-echo "system_clfs" ${YELLOW}
+color-echo "system" ${YELLOW}
 
-date > "${CLFS_LOG}/system_clfs.log"
+date > "${CLFS_LOG}/system.log"
 
 # Очистка сборочной папки
 #rm -Rf ${BUILD_DIR}

@@ -1,5 +1,5 @@
 %CONFIG%
-../${name}-${version}/libstdc++-v3/configure \
+../gcc-${version}/libstdc++-v3/configure \
 	--host=${LFS_TGT}                    \
 	--prefix=/tools                      \
 	--disable-multilib                   \

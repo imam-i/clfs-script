@@ -27,12 +27,14 @@ local ns2_IP='8.8.8.8'
 #local PATH_CHROOT='/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin:/tools/sbin'
 
 # flags
-local CLFS_FLAG='clfs'
+local CLFS_FLAG="${FUNCNAME}"
+#local CLFS_FLAG='clfs'
 local SU_FLAG=${SU_FLAG:-0}
 #local J2_CLFS_FLAG="$(( `grep -c '^processor' /proc/cpuinfo` + 1 ))"
 local PACKAGE_MANAGER_FLAG=${PACKAGE_MANAGER_FLAG:-1}
-local MOUNT_FLAG=${MOUNT_FLAG:-0}
 local PACKAGES_FLAG=${PACKAGES_FLAG:-0}
+local DOWNLOAD_FLAG=${DOWNLOAD_FLAG:-0}
+local MOUNT_FLAG=${MOUNT_FLAG:-0}
 local TOOLS_FLAG=${TOOLS_FLAG:-0}		# 0 = 00; 1 = -1; 2 = 10; 3 = 11.
 local SYSTEM_FLAG=${SYSTEM_FLAG:-0}		# 0 = 00; 1 = -1; 2 = 10; 3 = 11.
 local BLFS_FLAG=${BLFS_FLAG:-0}
@@ -40,13 +42,13 @@ local ERR_FLAG=${ERR_FLAG:-0}
 
 # The different log levels:
 local CT_LOG_LEVEL_ERROR=0
-local CT_LOG_LEVEL_WARN=1
-local CT_LOG_LEVEL_INFO=2
-local CT_LOG_LEVEL_EXTRA=3
-local CT_LOG_LEVEL_CFG=4
-local CT_LOG_LEVEL_FILE=5
-local CT_LOG_LEVEL_STATE=6
-local CT_LOG_LEVEL_ALL=7
-local CT_LOG_LEVEL_DEBUG=8
+local CT_LOG_LEVEL_DEBUG=1
+local CT_LOG_LEVEL_WARN=2
+local CT_LOG_LEVEL_INFO=3
+local CT_LOG_LEVEL_EXTRA=4
+local CT_LOG_LEVEL_CFG=5
+local CT_LOG_LEVEL_FILE=6
+local CT_LOG_LEVEL_STATE=7
+local CT_LOG_LEVEL_ALL=8
 
 #######################################

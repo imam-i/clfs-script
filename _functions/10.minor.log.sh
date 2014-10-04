@@ -3,15 +3,16 @@
 # Функция "log"
 # Version: 0.1
 
-function f_log {
+minor_log () {
 #exec 6>&1 7>&2 8<&0
 #exec >> ${_log}.log
 #exec 2>> ${_log}.error.log
 
-local CLFS_FLAG='f_log'
+#local CLFS_FLAG='f_log'
 
 local CT_LOG_PROGRESS_BAR=y
 local ERROR="${RED}"
+local DEBUG="${MAGENTA}"
 local WARN="${YELLOW}"
 local INFO="${WHITE}"
 local EXTRA="${WHITE}"
@@ -19,7 +20,6 @@ local CFG="${NC}"
 local FILE="${NC}"
 local STATE="${NC}"
 local ALL="${NC}"
-local DEBUG="${WHITE}"
 
 #local color="${1}"; shift
 local max_level LEVEL level cur_l cur_L
@@ -43,8 +43,8 @@ fi |  ( IFS=`printf "\n"`
 	while read line
 	do
 		case "${CT_LOG_SEE_TOOLS_WARN},${line}" in
-			y,*"warning:"*)		cur_L=WARN; cur_l=${CT_LOG_LEVEL_WARN};;
-			y,*"WARNING:"*)		cur_L=WARN; cur_l=${CT_LOG_LEVEL_WARN};;
+			*"warning:"*)		cur_L=WARN; cur_l=${CT_LOG_LEVEL_WARN};;
+			*"WARNING:"*)		cur_L=WARN; cur_l=${CT_LOG_LEVEL_WARN};;
 			*"error:"*)		cur_L=ERROR; cur_l=${CT_LOG_LEVEL_ERROR};;
 			*"make["*"]: *** ["*)	cur_L=ERROR; cur_l=${CT_LOG_LEVEL_ERROR};;
 			*)			cur_L="${LEVEL}"; cur_l="${level}";;
@@ -55,9 +55,15 @@ fi |  ( IFS=`printf "\n"`
 			printf "${!cur_L}${CT_LOG_PROGRESS_BAR:+\r}[%-5s]%s%s${NC}\n" "${cur_L}" " " "${line}" >&6
 #			printf "\r${!color}%s${NC}\n" "${@}" >&6
 		fi
-		if [ "${CT_LOG_PROGRESS_BAR}" = "y" ] && [ "${cur_L}" != 'WARN' ]; then
-			printf "\r[%02d:%02d] %s" $((SECONDS/60)) $((SECONDS%60)) "${_prog_bar[$((_prog_bar_cpt/10))]}" >&6
-			_prog_bar_cpt=$(((_prog_bar_cpt+1)%40))
+		if [ "${CT_LOG_PROGRESS_BAR}" = "y" ]; then
+			case "${cur_L}" in
+				DEBUG) true ;;
+#				ERROR) [ "${ERR_FLAG}" -eq 0 ] && ERR_FLAG=1 ;;
+				*)
+					printf "\r[%02d:%02d] %s" $((SECONDS/60)) $((SECONDS%60)) "${_prog_bar[$((_prog_bar_cpt/10))]}" >&6
+					_prog_bar_cpt=$(((_prog_bar_cpt+1)%40))
+				;;
+			esac
 		fi
 	done )
 
